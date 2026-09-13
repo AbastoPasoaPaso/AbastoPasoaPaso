@@ -214,11 +214,23 @@
         .cuaderno-cliente-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; cursor: pointer; user-select: none; font-size: 0.9rem; font-weight: 700; }
         .cuaderno-cliente-header:hover { background-color: var(--border-color); }
         .cuaderno-registro-card { background-color: var(--bg-main); border: 1px solid var(--border-light); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
-        .cuaderno-item-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; background: var(--bg-card); padding: 6px; border-radius: 6px; border: 1px solid var(--border-light); }
-        .cuaderno-input-nom { flex: 2; min-width: 60px; padding: 6px; font-size: 0.82rem; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; width: 100%; }
-        .cuaderno-input-qty { width: 50px; padding: 6px 4px; font-size: 0.82rem; text-align: center; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
-        .cuaderno-input-precio { width: 95px; padding: 6px; font-size: 0.82rem; text-align: right; border-radius: 6px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .cuaderno-item-row { display: grid; grid-template-columns: minmax(120px, 1.8fr) 54px minmax(210px, 1.4fr) 28px; align-items: center; gap: 8px; margin-top: 7px; background: var(--bg-card); padding: 8px; border-radius: 10px; border: 1px solid var(--border-light); }
+        .cuaderno-input-nom { flex: 2; min-width: 60px; padding: 7px 8px; font-size: 0.82rem; border-radius: 7px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; width: 100%; }
+        .cuaderno-input-qty { width: 54px; padding: 7px 4px; font-size: 0.82rem; text-align: center; border-radius: 7px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .cuaderno-precios { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; min-width: 0; }
+        .cuaderno-moneda { position: relative; min-width: 0; }
+        .cuaderno-moneda-label { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); font-size: 0.68rem; font-weight: 900; color: var(--secondary); pointer-events: none; z-index: 1; }
+        .cuaderno-input-precio { width: 100%; padding: 7px 7px 7px 31px; font-size: 0.82rem; text-align: right; border-radius: 7px; border: 1px solid var(--border-light); background: var(--bg-input); color: var(--text-main); outline: none; }
+        .cuaderno-input-precio:focus { border-color: var(--secondary); box-shadow: 0 0 0 2px rgba(0,188,212,.10); }
+        .cuaderno-conversion-hint { font-size: 9px; color: var(--text-muted); margin-top: 3px; text-align: right; grid-column: 1 / -1; }
         .btn-cuaderno-action { background: var(--bg-box); border: 1px solid var(--border-light); color: var(--text-main); padding: 5px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: 700; cursor: pointer; }
+        @media (max-width: 620px) {
+            .cuaderno-item-row { grid-template-columns: minmax(0, 1fr) 52px 30px; gap: 7px; }
+            .cuaderno-item-row > .autocomplete-wrapper { grid-column: 1 / 3; }
+            .cuaderno-item-row > .cuaderno-precios { grid-column: 1 / 4; }
+            .cuaderno-item-row > .cuaderno-delete { grid-column: 3; grid-row: 1; }
+            .cuaderno-conversion-hint { font-size: 8px; }
+        }
 
         /* AUTOCOMPLETE DROPDOWN */
         .autocomplete-wrapper { position: relative; flex: 2; min-width: 60px; }
@@ -278,7 +290,20 @@
         .oculto { display: none !important; }
 
         /* AYUDA CONVERSIÓN RÁPIDA */
-        .ayuda-moneda { font-size: 10px; color: var(--secondary); margin-top: 3px; font-weight: 600; }
+        .ayuda-moneda { font-size: 10px; color: var(--secondary); margin-top: 5px; font-weight: 600; }
+        .fila-monedas { display: flex; gap: 10px; flex-wrap: wrap; }
+        .campo-moneda { flex: 1 1 140px; min-width: 0; }
+        .campo-moneda label { margin-top: 10px; }
+        .campo-moneda input { width: 100%; }
+        .pago-moneda-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .pago-moneda-card { background: var(--bg-main); border: 1px solid var(--border-light); border-radius: 10px; padding: 10px; }
+        .pago-moneda-card label { margin: 0 0 5px; }
+        .pago-moneda-card input { font-size: 1rem; font-weight: 800; }
+        .pago-equivalencia { font-size: 9px; color: var(--text-muted); margin-top: 4px; }
+        .vuelto-resumen { margin-top: 10px; padding: 10px 12px; border-radius: 10px; background: var(--bg-main); border: 1px solid var(--border-light); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+        @media (max-width: 520px) { .pago-moneda-grid { grid-template-columns: 1fr; } }
+        .precio-usd-admin { color: var(--text-muted); font-size: 0.72rem; display: block; margin-top: 2px; }
+        .precio-dual { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
     </style>
 </head>
 <body>
@@ -350,21 +375,23 @@
                 </div>
 
                 <div class="calculadora-vuelto">
-                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Calculadora de Vuelto (Conversión Rápida $)</div>
-                    <div class="row-pago">
-                        <div>
-                            <label style="margin-top: 4px;">Paga con USD ($):</label>
-                            <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="pos-pago-usd" placeholder="0,00 o $30" oninput="calcularVuelto()">
-                            <div class="ayuda-moneda" id="ayuda-pos-pago-usd">Pon $30 y se pasa a Bs</div>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Pago y conversión</div>
+                    <div class="pago-equivalencia" style="font-size:10px; margin-top:4px;">Escribe en <strong>Bs</strong> o <strong>USD</strong>. El otro campo se actualiza automáticamente con la tasa actual.</div>
+                    <div class="pago-moneda-grid">
+                        <div class="pago-moneda-card">
+                            <label>🇻🇪 Paga con Bs</label>
+                            <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-bs" placeholder="0,00" oninput="sincronizarPago('bs')">
+                            <div class="pago-equivalencia" id="equiv-pago-bs">≈ $0,00</div>
                         </div>
-                        <div>
-                            <label style="margin-top: 4px;">Paga con Bs:</label>
-                            <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-bs" placeholder="0,00" oninput="calcularVuelto()">
+                        <div class="pago-moneda-card">
+                            <label>🇺🇸 Paga con USD</label>
+                            <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="pos-pago-usd" placeholder="0,00" oninput="sincronizarPago('usd')">
+                            <div class="pago-equivalencia" id="equiv-pago-usd">≈ 0,00 Bs.</div>
                         </div>
                     </div>
-                    <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
-                        <span style="font-size: 13px; font-weight: 700;">Vuelto a entregar:</span>
-                        <span style="font-size: 18px; font-weight: 800; color: var(--success);" id="pos-vuelto">0,00 Bs.</span>
+                    <div class="vuelto-resumen">
+                        <span style="font-size: 13px; font-weight: 700;">Vuelto a entregar</span>
+                        <span style="font-size: 18px; font-weight: 900; color: var(--success);" id="pos-vuelto">0,00 Bs.</span>
                     </div>
                 </div>
 
@@ -461,8 +488,8 @@
             <div style="text-align: center; font-size: 12px; color: var(--text-muted);" id="recibo-fecha-hora">--/--/---- --:--</div>
             <div style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin: 10px 0;" id="recibo-desglose"></div>
             <div style="background: var(--bg-main); padding: 12px; border-radius: 10px; border: 1px solid var(--border-color);">
-                <div class="recibo-linea" style="display:flex; justify-content:space-between;"><span>Total Cobrado:</span><strong style="color: var(--warning);" id="recibo-total">0,00 Bs.</strong></div>
-                <div class="recibo-linea" style="display:flex; justify-content:space-between; margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: var(--success);" id="recibo-vuelto">0,00 Bs.</strong></div>
+                <div class="recibo-linea" style="display:flex; justify-content:space-between;"><span>Total Cobrado:</span><strong style="color: var(--warning);" id="recibo-total">0,00 Bs. ($0,00)</strong></div>
+                <div class="recibo-linea" style="display:flex; justify-content:space-between; margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: var(--success);" id="recibo-vuelto">0,00 Bs. ($0,00)</strong></div>
             </div>
             <button class="btn-cyan" style="margin-top: 5px; padding: 14px;" onclick="cerrarModalRecibo()">Nueva Venta</button>
         </div>
@@ -490,12 +517,18 @@
                 <input type="text" id="p-categoria" list="lista-categorias-sugeridas" placeholder="Categoría">
                 <datalist id="lista-categorias-sugeridas"></datalist>
 
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <div style="flex:1; min-width: 130px;">
-                        <label>Costo (Bs) o pon $30:</label>
-                        <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="p-costo" placeholder="0,00 o $30" oninput="procesarEntradaDolar(this)">
-                        <div class="ayuda-moneda">Escribe ej. $30 para convertir</div>
+                <div class="fila-monedas">
+                    <div class="campo-moneda">
+                        <label>Costo en Bolívares (Bs):</label>
+                        <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo-bs" placeholder="0,00" oninput="sincronizarCostoProducto('bs')">
                     </div>
+                    <div class="campo-moneda">
+                        <label>Costo en Dólares (USD):</label>
+                        <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo-usd" placeholder="$0,00" oninput="sincronizarCostoProducto('usd')">
+                    </div>
+                </div>
+                <div class="ayuda-moneda">💱 Puedes escribir en Bs o en $, el otro precio se convierte automáticamente usando la tasa actual.</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <div style="flex:1; min-width: 90px;">
                         <label>Ganancia (%):</label>
                         <input type="number" step="0.1" id="p-ganancia" placeholder="0">
@@ -540,6 +573,11 @@
         let ticketActual = [];
         let diasOffsetSeleccionado = 0;
         let estadoCarpetasCuaderno = {};
+        let facturasEnEdicion = {};
+
+        function escapeHtml(str) {
+            return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        }
 
         function escapeAttr(str) {
             if (str === null || str === undefined) return '';
@@ -609,43 +647,61 @@
             return isNaN(val) ? 0 : val;
         }
 
-        // FUNCIÓN CLAVE PARA CONVERSIÓN RÁPIDA DE DÓLARES A BOLÍVARES
-        // Si el usuario escribe "$" o "USD" o presiona para poner dólares (ej. "$30"), lo convierte automáticamente a Bs en el input
+        // CONVERSIÓN BIDIRECCIONAL DE MONEDAS
+        // La base de datos sigue guardando los importes en Bs para no romper la lógica existente.
+        function sincronizarCamposMoneda(inputOrigen, inputDestino, monedaOrigen) {
+            if (!inputOrigen || !inputDestino) return;
+            const valor = String(inputOrigen.value || '').trim();
+            if (!valor) { inputDestino.value = ''; return; }
+
+            formatearInputEnVivo(inputOrigen);
+            const monto = parsearMonto(inputOrigen.value);
+            const tasa = parsearMonto(config.tasaDolar) || 1;
+            if (monto <= 0 || tasa <= 0) { inputDestino.value = ''; return; }
+
+            const convertido = monedaOrigen === 'bs' ? monto / tasa : monto * tasa;
+            inputDestino.value = formatearNumero(convertido);
+        }
+
+        function sincronizarCostoProducto(moneda) {
+            const bs = document.getElementById('p-costo-bs');
+            const usd = document.getElementById('p-costo-usd');
+            sincronizarCamposMoneda(moneda === 'bs' ? bs : usd, moneda === 'bs' ? usd : bs, moneda);
+        }
+
+        // Conversión bidireccional del pago: siempre se conserva un único monto
+        // equivalente para evitar sumar dos veces el mismo pago.
+        function sincronizarPago(moneda) {
+            const bs = document.getElementById('pos-pago-bs');
+            const usd = document.getElementById('pos-pago-usd');
+            if (!bs || !usd) return;
+            sincronizarCamposMoneda(moneda === 'bs' ? bs : usd, moneda === 'bs' ? usd : bs, moneda);
+            calcularVuelto();
+        }
+
+        // Se mantiene por compatibilidad con cualquier parte antigua del código.
         function procesarEntradaDolar(input) {
-            let val = input.value;
-            if (!val) return;
-            
-            // Comprobar si el usuario escribió un signo de dólar o indicador de USD
-            if (val.includes('$') || val.toLowerCase().includes('usd')) {
-                let numeroLimpio = val.replace(/[^0-9,.]/g, '');
-                let montoUsd = parsearMonto(numeroLimpio);
-                let tasaNum = parsearMonto(config.tasaDolar) || 1;
-                
-                if (montoUsd > 0 && tasaNum > 0) {
-                    let resultadoBs = montoUsd * tasaNum;
-                    input.value = formatearNumero(resultadoBs);
-                }
-            } else {
-                formatearInputEnVivo(input);
-            }
+            formatearInputEnVivo(input);
         }
 
         function formatearInputEnVivo(input) {
-            let val = input.value;
+            if (!input) return;
+            let val = String(input.value || '');
             if (!val) return;
+
+            // Acepta $, USD, puntos de miles y coma decimal.
             let limpio = val.replace(/[^0-9,]/g, '');
             let partes = limpio.split(',');
-            let entero = partes[0];
-            if (entero) {
-                entero = entero.replace(/^0+(?=\d)/, '');
-                if (entero === '') entero = '0';
-                entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-            }
+            let entero = partes[0] || '';
+            entero = entero.replace(/^0+(?=\d)/, '');
+            if (entero === '') entero = '0';
+            entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
             if (partes.length > 1) {
-                let decimales = partes[1].slice(0, 2);
-                input.value = (entero || '0') + ',' + decimales;
+                const decimales = partes[1].slice(0, 2);
+                input.value = entero + ',' + decimales;
             } else {
-                input.value = val.includes(',') ? (entero || '0') + ',' : entero;
+                input.value = val.includes(',') ? entero + ',' : entero;
             }
         }
         document.addEventListener('input', function(e) { 
@@ -860,7 +916,7 @@
             ticketActual.forEach(item => {
                 const subtotalBs = item.precioBs * item.cantidad;
                 totalBs += subtotalBs;
-                html += `<div class="ticket-item-card"><div style="flex:1; min-width:0;"><div style="font-weight:700; font-size:0.85rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nombre}</div><div style="font-size:0.75rem; color:var(--warning); font-weight:700;">${formatearNumero(subtotalBs)} Bs.</div></div><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', -1)">-</button><span style="font-weight: 800; width: 20px; text-align: center; font-size: 12px;">${item.cantidad}</span><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', 1)">+</button></div><button style="background:transparent; border:none; color:var(--danger); cursor:pointer; padding:4px;" onclick="eliminarItemTicket('${escapeAttr(item.id)}')">🗑️</button></div>`;
+                html += `<div class="ticket-item-card"><div style="flex:1; min-width:0;"><div style="font-weight:700; font-size:0.85rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nombre}</div><div style="font-size:0.75rem; color:var(--warning); font-weight:700;">${formatearNumero(subtotalBs)} Bs. <span class="precio-usd-admin" style="display:inline;">($${formatearNumero(subtotalBs / tasa)})</span></div></div><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', -1)">-</button><span style="font-weight: 800; width: 20px; text-align: center; font-size: 12px;">${item.cantidad}</span><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', 1)">+</button></div><button style="background:transparent; border:none; color:var(--danger); cursor:pointer; padding:4px;" onclick="eliminarItemTicket('${escapeAttr(item.id)}')">🗑️</button></div>`;
             });
             contenedor.innerHTML = html;
             document.getElementById('pos-total-bs').textContent = formatearNumero(totalBs) + ' Bs.';
@@ -869,23 +925,30 @@
         }
 
         function calcularVuelto() {
-            // Soportar conversión rápida $ en el input de pago USD
-            const inputUsd = document.getElementById('pos-pago-usd');
-            if (inputUsd.value.includes('$') || inputUsd.value.toLowerCase().includes('usd')) {
-                let numLimpio = inputUsd.value.replace(/[^0-9,.]/g, '');
-                let mUsd = parsearMonto(numLimpio);
-                let t = parsearMonto(config.tasaDolar) || 1;
-                if (mUsd > 0) inputUsd.value = formatearNumero(mUsd * t);
-            }
-
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
-            const totalPagadoBs = ((parsearMonto(inputUsd.value) || 0) * 1) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
-            const vueltoBs = totalPagadoBs - totalBs;
-            const elVuelto = document.getElementById('pos-vuelto');
+            const inputBs = document.getElementById('pos-pago-bs');
+            const inputUsd = document.getElementById('pos-pago-usd');
+            if (!inputBs || !inputUsd) return;
 
-            if (vueltoBs >= 0) { elVuelto.textContent = formatearNumero(vueltoBs) + ' Bs.'; elVuelto.style.color = 'var(--success)'; } 
-            else { elVuelto.textContent = 'Faltan ' + formatearNumero(Math.abs(vueltoBs)) + ' Bs.'; elVuelto.style.color = 'var(--primary)'; }
+            const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
+            // El campo Bs es la referencia canónica; USD es su equivalente, no un pago adicional.
+            const totalPagadoBs = parsearMonto(inputBs.value) || 0;
+            const vueltoBs = totalPagadoBs - totalBs;
+
+            const equivBs = document.getElementById('equiv-pago-bs');
+            const equivUsd = document.getElementById('equiv-pago-usd');
+            if (equivBs) equivBs.textContent = '≈ $' + formatearNumero(totalPagadoBs / tasa);
+            if (equivUsd) equivUsd.textContent = '≈ ' + formatearNumero(parsearMonto(inputUsd.value) || 0) + ' Bs.';
+
+            const elVuelto = document.getElementById('pos-vuelto');
+            if (!elVuelto) return;
+            if (vueltoBs >= 0) {
+                elVuelto.textContent = formatearNumero(vueltoBs) + ' Bs.';
+                elVuelto.style.color = 'var(--success)';
+            } else {
+                elVuelto.textContent = 'Faltan ' + formatearNumero(Math.abs(vueltoBs)) + ' Bs.';
+                elVuelto.style.color = 'var(--primary)';
+            }
         }
 
         function procesarVenta() {
@@ -894,7 +957,7 @@
             const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
             const gananciaBs = totalBs - ticketActual.reduce((acc, item) => acc + (item.costoBs * item.cantidad), 0);
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const totalPagadoBs = ((parsearMonto(document.getElementById('pos-pago-usd').value) || 0) * 1) + (parsearMonto(document.getElementById('pos-pago-bs').value) || 0);
+            const totalPagadoBs = parsearMonto(document.getElementById('pos-pago-bs').value) || 0;
             const vueltoBs = Math.max(0, totalPagadoBs - totalBs);
 
             const fechaObj = new Date();
@@ -908,7 +971,8 @@
             });
 
             actualizaciones['abasto/ventas/' + idVenta] = {
-                id: idVenta, fechaIso: getFechaLocalISO(fechaObj), fechaFormato: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), totalBs: totalBs, gananciaBs: gananciaBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs }))
+                id: idVenta, fechaIso: getFechaLocalISO(fechaObj), fechaFormato: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), totalBs: totalBs, gananciaBs: gananciaBs,
+                items: ticketActual.map(i => ({ productId: i.id, nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs, costoBs: i.costoBs }))
             };
 
             db.ref().update(actualizaciones, error => {
@@ -1026,8 +1090,18 @@
                                             <div class="autocomplete-suggestions oculto"></div>
                                         </div>
                                         <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
-                                        <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd cuaderno-input-precio" value="${formatearNumero(precioItem)}" oninput="procesarEntradaDolarCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" title="Precio Bs (Pon $30 para convertir)">
-                                        <button style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:2px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar">✕</button>
+                                        <div class="cuaderno-precios">
+                                            <div class="cuaderno-moneda">
+                                                <span class="cuaderno-moneda-label">BS</span>
+                                                <input type="text" inputmode="decimal" class="cuaderno-input-precio" value="${formatearNumero(precioItem)}" oninput="sincronizarPrecioCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, 'bs')" onchange="guardarPrecioCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, 'bs')" title="Precio en Bolívares" placeholder="0,00">
+                                            </div>
+                                            <div class="cuaderno-moneda">
+                                                <span class="cuaderno-moneda-label">USD</span>
+                                                <input type="text" inputmode="decimal" class="cuaderno-input-precio" value="${formatearNumero((precioItem / (parsearMonto(config.tasaDolar) || 1)))}" oninput="sincronizarPrecioCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, 'usd')" onchange="guardarPrecioCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, 'usd')" title="Precio en dólares" placeholder="0,00">
+                                            </div>
+                                            <div class="cuaderno-conversion-hint">💱 Al escribir en cualquiera, el otro se actualiza</div>
+                                        </div>
+                                        <button class="cuaderno-delete" style="background:transparent; border:none; color:var(--danger); cursor:pointer; font-size:14px; padding:2px;" onclick="eliminarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx})" title="Eliminar">✕</button>
                                     </div>`;
                             });
                         }
@@ -1066,7 +1140,7 @@
                                     <span class="flecha-icon ${claseRotClient}" style="font-size:10px;">▼</span>
                                     <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-main); font-weight:bold;">${cliente}</span>
                                 </div>
-                                <span style="color:var(--danger); font-size:0.9rem; font-weight:800; white-space:nowrap;">${formatearNumero(totalDeudaBs)} Bs.</span>
+                                <span style="color:var(--danger); font-size:0.9rem; font-weight:800; white-space:nowrap; text-align:right;">${formatearNumero(totalDeudaBs)} Bs.<small style="display:block; color:var(--text-muted); font-size:10px;">$${formatearNumero(totalDeudaBs / (parsearMonto(config.tasaDolar) || 1))}</small></span>
                             </div>
                             <div class="cat-content-wrapper ${claseColClient}">
                                 <div class="cat-content-inner" style="padding: 10px; background:var(--bg-card); border-top:1px solid var(--border-light);">
@@ -1078,8 +1152,9 @@
                                     <button style="background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main); font-size:11px; font-weight:bold; padding:8px; width:100%; border-radius:6px; cursor:pointer; margin-top:6px;" onclick="crearNuevoRegistroCuaderno('${escapeAttr(cliente)}')">📝 Crear Nueva Nota</button>
                                     <div style="background:var(--bg-main); border:1px solid var(--border-light); padding:10px; border-radius:8px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
                                         <span style="font-size:11px; font-weight:800; color:var(--warning);">Total Deuda:</span>
-                                        <div style="display:flex; gap:6px; align-items:center;">
-                                            <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd cuaderno-input-precio" style="width:105px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}" oninput="procesarEntradaDolarDeudaTotal(this, '${escapeAttr(cliente)}')">
+                                        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                                            <input type="text" inputmode="decimal" class="cuaderno-input-precio" style="width:105px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}" oninput="sincronizarDeudaTotal('${escapeAttr(cliente)}', 'bs')" onchange="guardarTotalManualCliente('${escapeAttr(cliente)}')" placeholder="Bs">
+                                            <input type="text" inputmode="decimal" class="cuaderno-input-precio" style="width:90px; font-weight:bold;" id="input-total-usd-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs / (parsearMonto(config.tasaDolar) || 1))}" oninput="sincronizarDeudaTotal('${escapeAttr(cliente)}', 'usd')" onchange="guardarTotalManualCliente('${escapeAttr(cliente)}')" placeholder="$">
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="guardarTotalManualCliente('${escapeAttr(cliente)}')">Fijar</button>
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem; background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main);" onclick="recalcularTotalCliente('${escapeAttr(cliente)}')">🔄 Actualizar</button>
                                         </div>
@@ -1112,30 +1187,42 @@
             });
         }
 
-        // Conversión rápida de dólares en inputs de precios del cuaderno virtual
+        // Conversión bidireccional en precios del Cuaderno Virtual.
+        // La conversión ocurre al escribir; Firebase se actualiza al salir del campo.
+        function sincronizarPrecioCuaderno(inputEl, cliente, regId, itemIdx, moneda) {
+            const fila = inputEl.closest('.cuaderno-item-row');
+            if (!fila) return;
+            const inputs = fila.querySelectorAll('.cuaderno-input-precio');
+            if (inputs.length < 2) return;
+            const bsInput = inputs[0];
+            const usdInput = inputs[1];
+            sincronizarCamposMoneda(moneda === 'bs' ? bsInput : usdInput, moneda === 'bs' ? usdInput : bsInput, moneda);
+        }
+
+        function guardarPrecioCuaderno(inputEl, cliente, regId, itemIdx, moneda) {
+            const fila = inputEl.closest('.cuaderno-item-row');
+            if (!fila) return;
+            const inputs = fila.querySelectorAll('.cuaderno-input-precio');
+            if (inputs.length < 2) return;
+            const bsInput = inputs[0];
+            const usdInput = inputs[1];
+            const tasa = parsearMonto(config.tasaDolar) || 1;
+            const valorBs = moneda === 'bs' ? parsearMonto(bsInput.value) : (parsearMonto(usdInput.value) * tasa);
+            editarItemCuaderno(cliente, regId, itemIdx, 'precioBs', valorBs);
+        }
+
+        function sincronizarDeudaTotal(cliente, moneda) {
+            const bsInput = document.getElementById('input-total-cli-' + cliente);
+            const usdInput = document.getElementById('input-total-usd-cli-' + cliente);
+            sincronizarCamposMoneda(moneda === 'bs' ? bsInput : usdInput, moneda === 'bs' ? usdInput : bsInput, moneda);
+        }
+
         function procesarEntradaDolarCuaderno(inputEl, cliente, regId, itemIdx) {
-            let val = inputEl.value;
-            if (val.includes('$') || val.toLowerCase().includes('usd')) {
-                let limpio = val.replace(/[^0-9,.]/g, '');
-                let mUsd = parsearMonto(limpio);
-                let tasa = parsearMonto(config.tasaDolar) || 1;
-                if (mUsd > 0) {
-                    inputEl.value = formatearNumero(mUsd * tasa);
-                }
-            }
-            editarItemCuaderno(cliente, regId, itemIdx, 'precioBs', inputEl.value);
+            sincronizarPrecioCuaderno(inputEl, cliente, regId, itemIdx, 'usd');
         }
 
         function procesarEntradaDolarDeudaTotal(inputEl, cliente) {
-            let val = inputEl.value;
-            if (val.includes('$') || val.toLowerCase().includes('usd')) {
-                let limpio = val.replace(/[^0-9,.]/g, '');
-                let mUsd = parsearMonto(limpio);
-                let tasa = parsearMonto(config.tasaDolar) || 1;
-                if (mUsd > 0) {
-                    inputEl.value = formatearNumero(mUsd * tasa);
-                }
-            }
+            sincronizarDeudaTotal(cliente, 'usd');
         }
 
         function registrarAnotadoRecord(cliente, regId) {
@@ -1377,11 +1464,11 @@
         function mostrarModalRecibo(totalBs, vueltoBs) {
             const desglose = document.getElementById('recibo-desglose');
             let html = '';
-            ticketActual.forEach(item => { html += `<div class="recibo-linea" style="display:flex; justify-content:space-between; font-size:12px; border-bottom:1px solid var(--border-light); padding:4px 0;"><span>${item.cantidad}x ${item.nombre}</span><strong>${formatearNumero(item.precioBs * item.cantidad)} Bs.</strong></div>`; });
+            ticketActual.forEach(item => { html += `<div class="recibo-linea" style="display:flex; justify-content:space-between; font-size:12px; border-bottom:1px solid var(--border-light); padding:4px 0;"><span>${item.cantidad}x ${item.nombre}</span><strong>${formatearNumero(item.precioBs * item.cantidad)} Bs. <span style="font-size:10px; color:var(--text-muted);">($${formatearNumero((item.precioBs * item.cantidad) / (parsearMonto(config.tasaDolar) || 1))})</span></strong></div>`; });
             desglose.innerHTML = html;
             document.getElementById('recibo-fecha-hora').textContent = new Date().toLocaleString();
-            document.getElementById('recibo-total').textContent = formatearNumero(totalBs) + ' Bs.';
-            document.getElementById('recibo-vuelto').textContent = formatearNumero(vueltoBs) + ' Bs.';
+            document.getElementById('recibo-total').textContent = formatearNumero(totalBs) + ' Bs. ($' + formatearNumero(totalBs / (parsearMonto(config.tasaDolar) || 1)) + ')';
+            document.getElementById('recibo-vuelto').textContent = formatearNumero(vueltoBs) + ' Bs. ($' + formatearNumero(vueltoBs / (parsearMonto(config.tasaDolar) || 1)) + ')';
             document.getElementById('modal-recibo').classList.remove('oculto');
         }
 
@@ -1412,7 +1499,7 @@
 
         function renderCierreCaja() {
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const dObj = new Date(); 
+            const dObj = new Date();
             dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
             const fechaObjetivoIso = getFechaLocalISO(dObj);
             const fechaObjetivoLocal = dObj.toLocaleDateString();
@@ -1421,18 +1508,16 @@
             if (diasOffsetSeleccionado === -1) labelDiaTexto = "Ayer (" + fechaObjetivoLocal + ")";
             else if (diasOffsetSeleccionado < -1) labelDiaTexto = fechaObjetivoLocal;
             else if (diasOffsetSeleccionado > 0) labelDiaTexto = "Fecha Futura / " + fechaObjetivoLocal;
-            
+
             document.getElementById('label-dia-seleccionado').textContent = labelDiaTexto;
             document.getElementById('factura-dia-fecha').textContent = fechaObjetivoLocal;
 
-            // Filtrar ventas por fecha y ordenar estrictamente por hora / ID cronológicamente
             let ventasFiltradas = ventas.filter(v => v.fechaIso ? v.fechaIso === fechaObjetivoIso : true).sort((a, b) => (a.id || 0) - (b.id || 0));
-            
             let totalVendidoBs = 0; let gananciaNetaBs = 0; let totalUnidadesVendidas = 0;
 
             ventasFiltradas.forEach(v => {
-                totalVendidoBs += (v.totalBs || 0); 
-                gananciaNetaBs += (v.gananciaBs || 0);
+                totalVendidoBs += parsearMonto(v.totalBs) || 0;
+                gananciaNetaBs += parsearMonto(v.gananciaBs) || 0;
                 if (v.items && Array.isArray(v.items)) v.items.forEach(item => totalUnidadesVendidas += (parseInt(item.cantidad) || 0));
             });
 
@@ -1446,34 +1531,219 @@
 
             const contenedorFactura = document.getElementById('factura-dia-desglose');
             if (ventasFiltradas.length === 0) {
-                contenedorFactura.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 30px;">Sin facturas registradas en esta fecha. Usa los botones superiores o el selector de fecha para ver facturas pasadas.</div>';
-            } else {
-                let htmlFactura = '';
-                ventasFiltradas.forEach((v, index) => {
-                    htmlFactura += `
-                        <div style="background-color: var(--bg-box); border: 1px solid var(--border-light); border-radius: 10px; padding: 12px 14px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
-                                <span style="font-size: 13px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1}</span>
-                                <span style="font-size: 12px; font-weight: 700; color: var(--warning);">🕒 Hora: ${v.hora || 'Sin hora'}</span>
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">`;
-                    
-                    if (v.items && Array.isArray(v.items)) {
-                        v.items.forEach(item => {
-                            htmlFactura += `<div style="display:flex; justify-content:space-between; font-size:12px;"><span>• ${item.cantidad}x ${item.nombre}</span><strong style="color:var(--text-main);">${formatearNumero((parseFloat(item.precioBs) || 0) * (parseInt(item.cantidad) || 0))} Bs.</strong></div>`;
-                        });
-                    }
+                contenedorFactura.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:30px;">Sin facturas registradas en esta fecha. Usa los botones superiores o el selector de fecha para ver facturas pasadas.</div>';
+                return;
+            }
+
+            let htmlFactura = '';
+            ventasFiltradas.forEach((v, index) => {
+                const editando = !!facturasEnEdicion[String(v.id)];
+                if (editando) {
+                    const fechaInput = v.fechaIso || fechaObjetivoIso;
+                    const horaMatch = String(v.hora || '').match(/(\d{1,2}):(\d{2})/);
+                    const horaInput = horaMatch ? horaMatch[1].padStart(2, '0') + ':' + horaMatch[2] : '';
+                    const items = (v.items && Array.isArray(v.items)) ? v.items : [];
+                    let opcionesProductos = '<option value="">Seleccionar producto...</option>';
+                    productos.forEach(p => {
+                        if (!p || !p.nombre) return;
+                        opcionesProductos += `<option value="${escapeAttr(p.id)}">${escapeHtml(p.nombre)}</option>`;
+                    });
+
+                    let itemsHtml = '';
+                    items.forEach((item, itemIdx) => {
+                        const productoActual = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
+                        const productId = productoActual ? productoActual.id : (item.productId || item.id || '');
+                        itemsHtml += `
+                            <div style="display:grid; grid-template-columns:minmax(110px,2fr) 60px minmax(90px,1fr) 30px; gap:7px; align-items:center; margin-bottom:7px;">
+                                <select id="edit-prod-${v.id}-${itemIdx}" style="width:100%; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);">${opcionesProductos.replace(`value="${escapeAttr(productId)}"`, `value="${escapeAttr(productId)}" selected`)}</select>
+                                <input id="edit-qty-${v.id}-${itemIdx}" type="number" min="1" step="1" value="${parseInt(item.cantidad) || 1}" style="width:100%; box-sizing:border-box; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);" title="Cantidad">
+                                <input id="edit-price-${v.id}-${itemIdx}" type="text" inputmode="decimal" value="${formatearNumero(item.precioBs || 0)}" class="input-formato-monto" style="width:100%; box-sizing:border-box; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);" title="Precio unitario en Bs.">
+                                <button type="button" onclick="quitarItemFacturaEditada(${v.id}, ${itemIdx})" style="border:0; background:transparent; color:var(--danger); font-size:18px; cursor:pointer;">🗑️</button>
+                            </div>`;
+                    });
 
                     htmlFactura += `
+                        <div style="background:var(--bg-box); border:1px solid var(--primary); border-radius:12px; padding:14px; box-shadow:0 0 0 1px rgba(0,0,0,.05);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
+                                <strong style="color:var(--secondary);">✏️ Editando Factura #${index + 1}</strong>
+                                <span style="font-size:11px; color:var(--text-muted);">Puedes corregir producto, cantidad, precio, fecha y hora</span>
                             </div>
-                            <div style="display:flex; justify-content:space-between; font-size:12px; border-top: 1px dashed var(--border-light); padding-top: 6px;">
-                                <span style="font-weight:bold; color:var(--warning);">Total Factura:</span>
-                                <strong style="color: var(--warning); font-size: 13px;">${formatearNumero(v.totalBs || 0)} Bs. ($${formatearNumero((v.totalBs || 0) / tasa)})</strong>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
+                                <label style="font-size:11px; color:var(--text-muted);">Fecha<input id="edit-fecha-${v.id}" type="date" value="${fechaInput}" style="display:block; width:100%; box-sizing:border-box; margin-top:4px; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);"></label>
+                                <label style="font-size:11px; color:var(--text-muted);">Hora<input id="edit-hora-${v.id}" type="time" value="${horaInput}" style="display:block; width:100%; box-sizing:border-box; margin-top:4px; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);"></label>
+                            </div>
+                            <div style="font-size:11px; color:var(--text-muted); margin-bottom:5px;">PRODUCTO · CANTIDAD · PRECIO UNITARIO</div>
+                            <div id="edit-items-${v.id}">${itemsHtml || '<div style="color:var(--text-muted); font-size:12px; padding:8px 0;">No hay productos. Agrega uno.</div>'}</div>
+                            <div style="display:flex; gap:7px; flex-wrap:wrap; margin-top:10px;">
+                                <button type="button" onclick="agregarItemFacturaEditada(${v.id})" style="border:1px dashed var(--secondary); background:transparent; color:var(--secondary); padding:8px 11px; border-radius:8px; cursor:pointer; font-weight:700;">＋ Agregar producto</button>
+                                <span style="flex:1"></span>
+                                <button type="button" onclick="cancelarEditarFactura(${v.id})" style="border:1px solid var(--border-light); background:var(--bg-input); color:var(--text-main); padding:8px 11px; border-radius:8px; cursor:pointer; font-weight:700;">Cancelar</button>
+                                <button type="button" onclick="guardarFacturaEditada(${v.id})" style="border:0; background:var(--success); color:white; padding:8px 13px; border-radius:8px; cursor:pointer; font-weight:800;">💾 Guardar cambios</button>
                             </div>
                         </div>`;
+                    return;
+                }
+
+                htmlFactura += `
+                    <div style="background-color:var(--bg-box); border:1px solid var(--border-light); border-radius:10px; padding:12px 14px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; border-bottom:1px solid var(--border-color); padding-bottom:6px;">
+                            <span style="font-size:13px; font-weight:800; color:var(--secondary);">🧾 Factura #${index + 1}</span>
+                            <span style="font-size:12px; font-weight:700; color:var(--warning);">🕒 Hora: ${escapeHtml(v.hora || 'Sin hora')}</span>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:8px;">`;
+                if (v.items && Array.isArray(v.items)) {
+                    v.items.forEach(item => {
+                        const subtotal = (parsearMonto(item.precioBs) || 0) * (parseInt(item.cantidad) || 0);
+                        htmlFactura += `<div style="display:flex; justify-content:space-between; gap:8px; font-size:12px;"><span>• ${parseInt(item.cantidad) || 0}x ${escapeHtml(item.nombre || 'Producto')}</span><strong style="color:var(--text-main);">${formatearNumero(subtotal)} Bs. <span style="font-size:10px; color:var(--text-muted);">($${formatearNumero(subtotal / tasa)})</span></strong></div>`;
+                    });
+                }
+                htmlFactura += `
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; border-top:1px dashed var(--border-light); padding-top:7px;">
+                            <span style="font-weight:bold; color:var(--warning);">Total Factura:</span>
+                            <strong style="color:var(--warning); font-size:13px;">${formatearNumero(v.totalBs || 0)} Bs. ($${formatearNumero((v.totalBs || 0) / tasa)})</strong>
+                        </div>
+                        <div style="display:flex; justify-content:flex-end; gap:7px; margin-top:10px;">
+                            <button type="button" onclick="editarFactura(${v.id})" style="border:1px solid var(--secondary); background:transparent; color:var(--secondary); padding:7px 11px; border-radius:8px; cursor:pointer; font-size:11px; font-weight:800;">✏️ Editar factura</button>
+                            <button type="button" onclick="eliminarFactura(${v.id})" style="border:1px solid var(--danger); background:transparent; color:var(--danger); padding:7px 11px; border-radius:8px; cursor:pointer; font-size:11px; font-weight:800;">🗑️ Eliminar</button>
+                        </div>
+                    </div>`;
+            });
+            contenedorFactura.innerHTML = htmlFactura;
+        }
+
+        function editarFactura(id) {
+            const factura = ventas.find(v => String(v.id) === String(id));
+            if (!factura) return alert('Factura no encontrada.');
+            facturasEnEdicion[String(id)] = true;
+            renderCierreCaja();
+        }
+
+        function cancelarEditarFactura(id) {
+            delete facturasEnEdicion[String(id)];
+            renderCierreCaja();
+        }
+
+        function agregarItemFacturaEditada(id) {
+            const factura = ventas.find(v => String(v.id) === String(id));
+            if (!factura) return;
+            const items = Array.isArray(factura.items) ? factura.items : [];
+            items.push({ productId: '', nombre: '', cantidad: 1, precioBs: 0, costoBs: 0 });
+            factura.items = items;
+            facturasEnEdicion[String(id)] = true;
+            renderCierreCaja();
+        }
+
+        function quitarItemFacturaEditada(id, idx) {
+            const factura = ventas.find(v => String(v.id) === String(id));
+            if (!factura || !Array.isArray(factura.items)) return;
+            factura.items.splice(idx, 1);
+            facturasEnEdicion[String(id)] = true;
+            renderCierreCaja();
+        }
+
+        function guardarFacturaEditada(id) {
+            const factura = ventas.find(v => String(v.id) === String(id));
+            if (!factura) return alert('Factura no encontrada.');
+
+            const itemsOriginales = Array.isArray(factura.items) ? factura.items.map(i => ({...i})) : [];
+            const nuevosItems = [];
+            const itemsBase = factura.items || [];
+
+            for (let i = 0; i < itemsBase.length; i++) {
+                const prodSelect = document.getElementById(`edit-prod-${id}-${i}`);
+                const qtyInput = document.getElementById(`edit-qty-${id}-${i}`);
+                const priceInput = document.getElementById(`edit-price-${id}-${i}`);
+                if (!prodSelect || !qtyInput || !priceInput) continue;
+
+                const prod = productos.find(p => String(p.id) === String(prodSelect.value));
+                const cantidad = parseInt(qtyInput.value) || 0;
+                const precioBs = parsearMonto(priceInput.value);
+                if (!prod || cantidad <= 0 || precioBs <= 0) {
+                    return alert(`⚠️ Revisa el producto, cantidad y precio del artículo #${i + 1}.`);
+                }
+                nuevosItems.push({
+                    productId: prod.id,
+                    nombre: prod.nombre,
+                    cantidad,
+                    precioBs,
+                    costoBs: parsearMonto(prod.costoBs) || 0
                 });
-                contenedorFactura.innerHTML = htmlFactura;
             }
+
+            if (nuevosItems.length === 0) return alert('La factura debe tener al menos un producto.');
+
+            const totalBs = nuevosItems.reduce((sum, item) => sum + item.precioBs * item.cantidad, 0);
+            const gananciaBs = nuevosItems.reduce((sum, item) => sum + (item.precioBs - item.costoBs) * item.cantidad, 0);
+            const fechaEl = document.getElementById(`edit-fecha-${id}`);
+            const horaEl = document.getElementById(`edit-hora-${id}`);
+            const nuevaFechaIso = fechaEl && fechaEl.value ? fechaEl.value : (factura.fechaIso || getFechaLocalISO(new Date()));
+            const nuevaHora = horaEl && horaEl.value ? horaEl.value : (factura.hora || '');
+            let fechaObj = new Date(nuevaFechaIso + 'T' + (nuevaHora || '00:00'));
+            if (isNaN(fechaObj.getTime())) fechaObj = new Date();
+
+            // Corrige inventario: devuelve las unidades de la factura anterior y descuenta las nuevas.
+            const deltaStock = {};
+            itemsOriginales.forEach(item => {
+                const prod = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
+                if (prod && prod.stock !== undefined) deltaStock[String(prod.id)] = (deltaStock[String(prod.id)] || 0) + (parseInt(item.cantidad) || 0);
+            });
+            nuevosItems.forEach(item => {
+                deltaStock[String(item.productId)] = (deltaStock[String(item.productId)] || 0) - item.cantidad;
+            });
+
+            const updates = {};
+            Object.keys(deltaStock).forEach(prodId => {
+                const prod = productos.find(p => String(p.id) === String(prodId));
+                if (prod && prod.stock !== undefined) {
+                    const stockActual = parseInt(prod.stock) || 0;
+                    updates[`abasto/productos/${prod.id}/stock`] = Math.max(0, stockActual + deltaStock[prodId]);
+                }
+            });
+
+            updates[`abasto/ventas/${id}`] = {
+                ...factura,
+                id: factura.id,
+                fechaIso: nuevaFechaIso,
+                fechaFormato: fechaObj.toLocaleDateString(),
+                hora: nuevaHora,
+                totalBs,
+                gananciaBs,
+                items: nuevosItems
+            };
+
+            db.ref().update(updates, error => {
+                if (error) return alert('Error al guardar la factura: ' + error.message);
+                delete facturasEnEdicion[String(id)];
+                alert('✅ Factura corregida y guardada. También se ajustó el inventario.');
+                renderCierreCaja();
+            });
+        }
+
+        function eliminarFactura(id) {
+            const factura = ventas.find(v => String(v.id) === String(id));
+            if (!factura) return alert('Factura no encontrada.');
+            if (!confirm('¿Eliminar esta factura? También se devolverán al inventario las unidades que tenía registradas.')) return;
+
+            const updates = {};
+            const restaurar = {};
+            (factura.items || []).forEach(item => {
+                const prod = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
+                if (prod && prod.stock !== undefined) restaurar[String(prod.id)] = (restaurar[String(prod.id)] || 0) + (parseInt(item.cantidad) || 0);
+            });
+            Object.keys(restaurar).forEach(prodId => {
+                const prod = productos.find(p => String(p.id) === String(prodId));
+                if (prod) updates[`abasto/productos/${prod.id}/stock`] = (parseInt(prod.stock) || 0) + restaurar[prodId];
+            });
+            updates[`abasto/ventas/${id}`] = null;
+            db.ref().update(updates, error => {
+                if (error) alert('Error al eliminar: ' + error.message);
+                else {
+                    delete facturasEnEdicion[String(id)];
+                    alert('🗑️ Factura eliminada correctamente.');
+                    renderCierreCaja();
+                }
+            });
         }
 
         function reiniciarCaja() { 
@@ -1512,14 +1782,14 @@
         function registrarProducto() {
             const nombre = document.getElementById('p-nombre').value;
             const categoria = document.getElementById('p-categoria').value || "Viveres";
-            const costo = parsearMonto(document.getElementById('p-costo').value);
+            const costo = parsearMonto(document.getElementById('p-costo-bs').value);
             const ganancia = parseFloat(document.getElementById('p-ganancia').value) || 0;
             const stock = parseInt(document.getElementById('p-stock').value) || 0;
 
             if (!nombre || costo <= 0) return alert('Escribe nombre y costo válido.');
             const id = Date.now();
             db.ref('abasto/productos/' + id).set({ id: id, nombre: nombre, categoria: categoria, costoBs: costo, ganancia: ganancia, stock: stock });
-            document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
+            document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo-bs').value = ''; document.getElementById('p-costo-usd').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
             alert('Producto guardado.');
         }
 
@@ -1540,23 +1810,25 @@
 
             Object.keys(categorias).sort().forEach(cat => {
                 const catEscapada = escapeAttr(cat);
-                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs) o $30</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
+                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs)</th><th>Costo ($)</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
                 categorias[cat].sort((a, b) => String(a.nombre).localeCompare(String(b.nombre))).forEach(p => {
                     const stock = p.stock !== undefined ? p.stock : 0;
-                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto input-conv-usd" id="cost-${p.id}" value="${formatearNumero(parsearMonto(p.costoBs) || 0)}" oninput="procesarEntradaDolarFilaAdmin(this)"></td><td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><input type="number" class="input-inline" style="${stock <= 3 ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
+                    const costoBsFila = parsearMonto(p.costoBs) || 0;
+                    const costoUsdFila = costoBsFila / (parsearMonto(config.tasaDolar) || 1);
+                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-${p.id}" value="${formatearNumero(costoBsFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'bs')"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-usd-${p.id}" value="${formatearNumero(costoUsdFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'usd')"></td><td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><input type="number" class="input-inline" style="${stock <= 3 ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
                 });
                 contenedor.innerHTML += html + '</tbody></table></div></div>';
             });
         }
 
+        function sincronizarCostoFilaAdmin(id, moneda) {
+            const bs = document.getElementById('cost-' + id);
+            const usd = document.getElementById('cost-usd-' + id);
+            sincronizarCamposMoneda(moneda === 'bs' ? bs : usd, moneda === 'bs' ? usd : bs, moneda);
+        }
+
         function procesarEntradaDolarFilaAdmin(inputEl) {
-            let val = inputEl.value;
-            if (val.includes('$') || val.toLowerCase().includes('usd')) {
-                let limpio = val.replace(/[^0-9,.]/g, '');
-                let mUsd = parsearMonto(limpio);
-                let tasa = parsearMonto(config.tasaDolar) || 1;
-                if (mUsd > 0) inputEl.value = formatearNumero(mUsd * tasa);
-            }
+            formatearInputEnVivo(inputEl);
         }
 
         function toggleAdminCat(el) {
@@ -1612,4 +1884,3 @@
     </script>
 </body>
 </html>
-
