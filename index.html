@@ -4,54 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abasto Paso a Paso - Punto de Venta & Inventario</title>
-    <meta name="theme-color" content="#e91e63">
+    <meta name="theme-color" content="#d6236f">
 
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
         :root {
-            --bg-main: #121214;
-            --bg-card: #1e1e24;
-            --bg-box: #26262e;
-            --bg-input: #1a1a20;
-            --text-main: #ffffff;
-            --text-muted: #a0a0ab;
-            --border-color: #2a2a32;
-            --border-light: #3a3a45;
+            --bg-main: #131316;
+            --bg-card: #1c1c22;
+            --bg-box: #24242c;
+            --bg-input: #19191f;
+            --text-main: #f5f5f7;
+            --text-muted: #9797a3;
+            --border-color: #28282f;
+            --border-light: #35353f;
             
-            --primary: #e91e63;
-            --primary-hover: #d81b60;
-            --secondary: #00bcd4;
-            --secondary-hover: #00acc1;
-            --warning: #fbc02d;
-            --success: #4caf50;
-            --danger: #ff5252;
-            --shadow-color: rgba(0, 0, 0, 0.4);
+            --primary: #d6236f;
+            --primary-hover: #b81e5f;
+            --secondary: #14b8a6;
+            --secondary-hover: #0f9c8c;
+            --warning: #f0a020;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --shadow-color: rgba(0, 0, 0, 0.35);
         }
 
         body.light-mode {
-            --bg-main: #f4f4f6;
+            --bg-main: #f5f5f7;
             --bg-card: #ffffff;
             --bg-box: #f0f0f3;
             --bg-input: #ffffff;
-            --text-main: #121214;
-            --text-muted: #666670;
-            --border-color: #e0e0e8;
-            --border-light: #d0d0d8;
-            --shadow-color: rgba(0, 0, 0, 0.08);
+            --text-main: #17171c;
+            --text-muted: #64646f;
+            --border-color: #e2e2e8;
+            --border-light: #d2d2da;
+            --shadow-color: rgba(0, 0, 0, 0.07);
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; 
+            font-variant-numeric: tabular-nums;
             transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease; 
         }
 
@@ -66,16 +67,21 @@
         }
 
         .estado-conexion {
-            background-color: #2e7d32;
-            color: white;
+            background-color: rgba(34, 197, 94, 0.12);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.35);
             text-align: center;
-            padding: 6px 12px;
-            font-size: 11px;
+            padding: 5px 12px;
+            font-size: 10.5px;
             font-weight: 700;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
+            border-radius: 20px;
+            margin: 0 auto 12px auto;
+            letter-spacing: 0.3px;
+            max-width: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .header-card {
@@ -128,7 +134,7 @@
             font-size: 0.85rem;
             font-weight: 700;
             display: inline-block;
-            box-shadow: 0 3px 10px rgba(233, 30, 99, 0.3);
+            box-shadow: 0 3px 10px rgba(214, 35, 111, 0.3);
         }
 
         /* MENÚ LATERAL OFFCANVAS */
@@ -142,7 +148,7 @@
         
         .btn-nav { border: none; color: var(--text-muted); background: transparent; padding: 14px 12px; border-radius: 9px; cursor: pointer; font-size: 0.95rem; font-weight: 700; text-align: left; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
         .btn-nav:hover { background: var(--bg-box); }
-        .btn-nav.activo { background: var(--primary); color: #ffffff; box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4); }
+        .btn-nav.activo { background: var(--primary); color: #ffffff; box-shadow: 0 2px 8px rgba(214, 35, 111, 0.4); }
 
         .search-container { max-width: 900px; width: 100%; margin: 0 auto 12px auto; display: flex; gap: 8px; align-items: center; }
         .search-box { flex: 1; background-color: var(--bg-card); border: 1px solid var(--border-light); padding: 12px 14px; border-radius: 10px; color: var(--text-main); font-size: 0.95rem; outline: none; box-shadow: 0 2px 6px var(--shadow-color); }
@@ -232,6 +238,56 @@
             .cuaderno-conversion-hint { font-size: 8px; }
         }
 
+        /* CUADERNO VIRTUAL — DISEÑO LIMPIO */
+        #vista-cuaderno { max-width: 980px; margin: 0 auto; }
+        #vista-cuaderno .cuaderno-titulo { color:#9c27b0; margin-bottom:4px; }
+        #vista-cuaderno .cuaderno-subtitulo { text-align:center; color:var(--text-muted); font-size:12px; margin:0 0 12px; }
+        .cuaderno-toolbar { max-width:900px; width:100%; margin:0 auto 12px; display:flex; gap:8px; align-items:center; }
+        .cuaderno-toolbar .search-container { flex:1; margin:0 !important; }
+        .cuaderno-btn-nuevo { width:auto !important; min-width:145px; padding:10px 14px !important; margin:0 !important; white-space:nowrap; }
+        #contenedor-cuaderno { max-width:900px !important; }
+        #contenedor-cuaderno .categoria-section { margin-bottom:8px !important; }
+        #contenedor-cuaderno .categoria-header { min-height:44px; padding:9px 12px !important; background:var(--bg-box); border:1px solid var(--border-light); border-radius:10px; cursor:pointer; }
+        #contenedor-cuaderno .categoria-header:hover { background:var(--border-color); }
+        #contenedor-cuaderno .categoria-header > div:first-child { gap:7px !important; }
+        #contenedor-cuaderno .categoria-header span[style*="font-size:1.05rem"] { font-size:.95rem !important; }
+        #contenedor-cuaderno .cat-content-wrapper { margin-top:6px !important; }
+        #contenedor-cuaderno .cat-content-inner { padding:0 !important; }
+        .cuaderno-cliente-slim { background:var(--bg-card); border:1px solid var(--border-light); border-left:3px solid #9c27b0; border-radius:10px; margin-bottom:6px; }
+        .cuaderno-cliente-header { min-height:48px; padding:9px 11px; }
+        .cuaderno-cliente-header:hover { background:var(--bg-box); }
+        .cuaderno-cliente-header .cuaderno-deuda-resumen { display:flex; flex-direction:column; align-items:flex-end; line-height:1.05; }
+        .cuaderno-cliente-header .cuaderno-deuda-bs { color:var(--danger); font-size:.86rem; font-weight:800; }
+        .cuaderno-cliente-header .cuaderno-deuda-usd { color:var(--text-muted); font-size:.68rem; margin-top:3px; }
+        .cuaderno-cliente-body { padding:9px !important; background:var(--bg-main) !important; border-top:1px solid var(--border-light); }
+        .cuaderno-cliente-tools { display:flex; gap:6px; margin-bottom:8px; }
+        .cuaderno-cliente-tools .cuaderno-input-nom { flex:1; }
+        .cuaderno-registro-card { background:var(--bg-box); border:1px solid var(--border-light); border-radius:9px; padding:8px; margin-bottom:7px; }
+        .cuaderno-registro-head { display:flex; justify-content:space-between; align-items:center; gap:7px; padding-bottom:7px; margin-bottom:7px; border-bottom:1px solid var(--border-light); }
+        .cuaderno-registro-meta { display:flex; gap:5px; align-items:center; flex-wrap:wrap; }
+        .cuaderno-registro-actions { display:flex; gap:4px; flex-wrap:wrap; justify-content:flex-end; }
+        .cuaderno-item-row { margin-top:6px; padding:7px; border-radius:8px; background:var(--bg-card); }
+        .cuaderno-conversion-hint { display:none; }
+        .cuaderno-articulos-label { font-size:9px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:4px; }
+        .cuaderno-add-item { background:transparent; border:1px dashed var(--secondary); color:var(--secondary); font-size:11px; font-weight:800; padding:7px; width:100%; border-radius:7px; cursor:pointer; margin-top:7px; }
+        .cuaderno-nueva-nota { background:var(--bg-card); border:1px solid var(--border-light); color:var(--text-main); font-size:11px; font-weight:800; padding:8px; width:100%; border-radius:7px; cursor:pointer; margin-top:6px; }
+        .cuaderno-deuda-box { background:var(--bg-card); border:1px solid var(--border-light); padding:8px; border-radius:9px; margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:7px; flex-wrap:wrap; }
+        .cuaderno-deuda-label { font-size:10px; font-weight:800; color:var(--warning); }
+        .cuaderno-deuda-fields { display:flex; gap:5px; align-items:center; flex-wrap:wrap; }
+        .cuaderno-deuda-fields .cuaderno-input-precio { font-weight:700; }
+        .cuaderno-pago { margin-top:8px !important; background:var(--success) !important; color:white !important; font-size:11px !important; padding:9px !important; }
+        @media (max-width:620px) {
+            .cuaderno-toolbar { align-items:stretch; }
+            .cuaderno-btn-nuevo { min-width:44px; width:44px !important; padding:10px !important; font-size:0 !important; }
+            .cuaderno-btn-nuevo::after { content:'+'; font-size:20px; }
+            .cuaderno-cliente-header { min-height:46px; }
+            .cuaderno-registro-head { align-items:flex-start; flex-direction:column; }
+            .cuaderno-registro-actions { width:100%; justify-content:stretch; }
+            .cuaderno-registro-actions .btn-cuaderno-action { flex:1; }
+            .cuaderno-deuda-fields { width:100%; }
+            .cuaderno-deuda-fields .cuaderno-input-precio { flex:1; min-width:90px; }
+        }
+
         /* AUTOCOMPLETE DROPDOWN */
         .autocomplete-wrapper { position: relative; flex: 2; min-width: 60px; }
         .autocomplete-suggestions {
@@ -263,6 +319,15 @@
             background: var(--bg-box);
             color: var(--secondary);
         }
+
+        /* VENTA POR UNIDAD / PESO / VOLUMEN */
+        .unidad-badge { color: var(--secondary); font-size: 0.70rem; background: rgba(0,188,212,.10); border: 1px solid rgba(0,188,212,.28); padding: 2px 6px; border-radius: 5px; font-weight: 800; white-space: nowrap; }
+        .inventario-extra { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .ticket-cantidad-wrap { display:flex; align-items:center; gap:5px; background:var(--bg-main); border:1px solid var(--border-light); border-radius:8px; padding:3px; }
+        .ticket-cantidad-input { width:64px !important; padding:6px 4px !important; border:none !important; background:transparent !important; color:var(--text-main); text-align:center; font-weight:900; outline:none; }
+        .ticket-unidad-mini { font-size:9px; color:var(--text-muted); font-weight:800; min-width:22px; }
+        .ticket-precio-unitario { font-size:10px; color:var(--text-muted); margin-top:2px; }
+        @media (max-width: 520px) { .inventario-extra { grid-template-columns: 1fr; } .ticket-cantidad-input { width:58px !important; } }
 
         /* ADMIN */
         .titulo-admin { text-align: center; font-size: 1.25rem; font-weight: 800; color: var(--primary); margin-bottom: 16px; }
@@ -304,7 +369,224 @@
         @media (max-width: 520px) { .pago-moneda-grid { grid-template-columns: 1fr; } }
         .precio-usd-admin { color: var(--text-muted); font-size: 0.72rem; display: block; margin-top: 2px; }
         .precio-dual { display: flex; flex-direction: column; align-items: flex-end; gap: 1px; }
-    </style>
+
+        .ticket-item-main{flex:1;min-width:0;}
+        .ticket-item-name{font-weight:800;font-size:.86rem;color:var(--text-main);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+        .ticket-item-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
+        .ticket-delete{background:transparent;border:none;color:var(--danger);cursor:pointer;padding:4px;font-size:15px;}
+        .ticket-precio-unitario{font-size:.72rem;color:var(--text-muted);margin-top:2px;}
+
+        /* SISTEMA DETALLADO DE PRESENTACIONES / UNIDADES */
+        .modal-unidades-card { background:var(--bg-card); border-radius:16px; padding:18px; width:100%; max-width:560px; border:1px solid var(--secondary); box-shadow:0 8px 30px rgba(0,0,0,.45); max-height:90vh; overflow-y:auto; }
+        .unidad-config-row { display:grid; grid-template-columns:minmax(100px,1.4fr) 100px 120px 34px; gap:7px; align-items:end; background:var(--bg-box); border:1px solid var(--border-light); border-radius:10px; padding:9px; margin-bottom:7px; }
+        .unidad-config-row input, .unidad-config-row select { width:100%; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light); border-radius:7px; padding:8px; outline:none; }
+        .unidad-config-row label { margin:0 0 3px; font-size:9px; }
+        .unidad-config-row .btn-borrar-unidad { background:transparent; border:1px solid var(--danger); color:var(--danger); border-radius:7px; height:34px; cursor:pointer; font-weight:900; }
+        .presentacion-selector { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:10px; }
+        .presentacion-btn { background:var(--bg-box); color:var(--text-main); border:1px solid var(--border-light); border-radius:10px; padding:11px 9px; text-align:left; cursor:pointer; }
+        .presentacion-btn:hover { border-color:var(--secondary); }
+        .presentacion-btn strong { display:block; color:var(--secondary); font-size:13px; }
+        .presentacion-btn small { color:var(--text-muted); font-size:10px; }
+        .detalle-stock { font-size:9px; color:var(--text-muted); margin-top:2px; font-weight:700; }
+        .modal-edicion-venta-card { background:var(--bg-card); border-radius:14px; padding:12px; width:100%; max-width:430px; border:1px solid var(--warning); box-shadow:0 8px 30px rgba(0,0,0,.45); }
+        .edicion-venta-auto-precios{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px;}
+        .edicion-venta-auto-precios>div{background:var(--bg-box);border:1px solid var(--border-light);border-radius:10px;padding:9px 10px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+        .edicion-venta-auto-precios label{display:block;font-size:9px;color:var(--text-muted);font-weight:800;text-transform:uppercase;margin-bottom:4px;}
+        .edicion-venta-precio-editable input{width:100%;box-sizing:border-box;background:var(--bg-input);color:var(--warning);border:1px solid var(--border-light);border-radius:8px;padding:8px;font-size:15px;font-weight:900;outline:none;text-align:right;}
+        .edicion-venta-precio-editable input:focus{border-color:var(--warning);}
+
+        .edicion-venta-resumen { display:flex; justify-content:space-between; gap:10px; align-items:center; background:var(--bg-box); border:1px solid var(--border-light); border-radius:9px; padding:7px 9px; margin:7px 0; }
+        .edicion-venta-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .edicion-venta-campo { background:var(--bg-box); border:1px solid var(--border-light); border-radius:9px; padding:8px; }
+        .edicion-venta-campo label { display:block; font-size:9px; color:var(--text-muted); margin-bottom:5px; text-transform:uppercase; }
+        .edicion-venta-campo input { width:100%; box-sizing:border-box; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light); border-radius:8px; padding:10px 9px; font-size:1rem; font-weight:800; outline:none; }
+        .edicion-venta-campo input:focus { border-color:var(--warning); }
+        .edicion-venta-conversion { margin-top:8px; padding:8px 10px; background:var(--bg-main); border:1px solid var(--border-light); border-radius:9px; text-align:center; font-size:12px; font-weight:800; }
+        .edicion-venta-estado { min-height:16px; margin-top:7px; font-size:10px; }
+        .btn-editar-venta { background:var(--bg-main); border:1px solid var(--warning); color:var(--warning); border-radius:7px; padding:6px 8px; cursor:pointer; font-weight:800; font-size:11px; white-space:nowrap; }
+        @media (max-width:520px) { .edicion-venta-grid { grid-template-columns:1fr; } }
+
+        @media (max-width:560px) { .unidad-config-row { grid-template-columns:1fr 1fr; } .unidad-config-row > div:first-child { grid-column:1 / 3; } .unidad-config-row .btn-borrar-unidad { grid-column:2; } .presentacion-selector { grid-template-columns:1fr; } }
+
+
+        /* CAJA / VENTA — diseño compacto de trabajo */
+        #vista-pos .pos-box{max-width:760px;margin:0 auto;border-radius:16px;}
+        #vista-pos .pos-titulo{padding-bottom:9px;margin-bottom:9px;}
+        #vista-pos .ticket-header-stats{padding:8px 11px;border-radius:10px;margin-bottom:9px;}
+        #vista-pos .search-container{margin-bottom:9px;}
+        #vista-pos .carpeta-raiz-box{margin-bottom:9px;}
+        #vista-pos #pos-lista-items{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+        #vista-pos .ticket-item-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;padding:8px 9px!important;border-radius:10px!important;}
+        #vista-pos .ticket-item-name{font-size:.84rem;}
+        #vista-pos .ticket-precio-unitario{font-size:.68rem;margin-top:1px;}
+        #vista-pos .detalle-stock{font-size:8px;margin-top:1px;}
+        #vista-pos .ticket-item-actions{gap:4px;}
+        #vista-pos .ticket-cantidad-wrap{height:32px;}
+        #vista-pos .btn-qty{width:28px;height:28px;}
+        #vista-pos .ticket-cantidad-input{width:36px;height:28px;}
+        #vista-pos .btn-editar-venta{padding:5px 7px;font-size:10px;}
+        #vista-pos .ticket-delete{font-size:14px;padding:3px;}
+        #vista-pos .totales-pantalla{margin-top:9px;padding:11px!important;border-radius:12px;}
+        #vista-pos .monto-gran-total{font-size:1.65rem;}
+        #vista-pos .calculadora-vuelto{margin-top:9px;padding:10px!important;border-radius:12px;}
+        #vista-pos .pago-moneda-grid{gap:7px;margin-top:7px;}
+        #vista-pos .pago-moneda-card{padding:8px;border-radius:9px;}
+        #vista-pos .vuelto-resumen{margin-top:7px;padding:8px 10px;}
+        #vista-pos .btn-cobrar,#vista-pos .btn-fiado,#vista-pos .btn-orange{margin-top:6px!important;padding:10px!important;border-radius:9px;}
+        #editar-venta-presentacion-wrap select{width:100%;background:var(--bg-input);color:var(--text-main);border:1px solid var(--border-light);border-radius:8px;padding:9px;font-weight:800;outline:none;}
+        @media(max-width:520px){#vista-pos .ticket-item-card{grid-template-columns:minmax(0,1fr);gap:5px!important;}#vista-pos .ticket-item-actions{justify-content:flex-start;}#vista-pos .monto-gran-total{font-size:1.45rem;}}
+
+        /* POS COMPACTO: menos texto, mismas funciones */
+        #vista-pos .ticket-item-card{padding:9px 10px !important;gap:7px !important;}
+        #vista-pos .ticket-item-card .ticket-precio-unitario{font-size:11px;}
+        #vista-pos .totales-pantalla{padding:12px !important;}
+        #vista-pos .calculadora-vuelto{padding:12px !important;}
+        #vista-pos .btn-cobrar,#vista-pos .btn-fiado,#vista-pos .btn-orange{padding:11px !important;margin-top:7px !important;}
+        #modal-editar-venta .edicion-venta-campo input{padding:9px;}
+        #modal-editar-venta .edicion-venta-conversion{font-size:11px;padding:7px 9px;margin-top:7px;}
+    
+        #vista-catalogo .fila-producto-compacta { cursor: default; }
+        #vista-catalogo .fila-producto-compacta:active { transform: none; }
+</style>
+
+<style id="cuaderno-profesional-v2">
+/* Cuaderno Virtual — interfaz compacta y profesional */
+#vista-cuaderno{max-width:960px!important;padding-bottom:20px;}
+#vista-cuaderno .cuaderno-titulo{font-size:1.35rem!important;letter-spacing:-.02em;}
+#vista-cuaderno .cuaderno-subtitulo{font-size:11px!important;margin-bottom:10px!important;}
+.cuaderno-toolbar{max-width:920px!important;gap:7px!important;margin-bottom:10px!important;}
+.cuaderno-toolbar .search-container{min-width:0;}
+.cuaderno-btn-nuevo{min-width:112px!important;height:42px!important;padding:9px 12px!important;border-radius:9px!important;}
+#contenedor-cuaderno{max-width:920px!important;}
+#contenedor-cuaderno .categoria-section{margin-bottom:7px!important;}
+#contenedor-cuaderno .categoria-header{min-height:42px!important;padding:8px 12px!important;border-radius:10px!important;box-shadow:none!important;}
+#contenedor-cuaderno .categoria-header>div:first-child{gap:6px!important;}
+#contenedor-cuaderno .categoria-header span[style*="font-size:1.05rem"]{font-size:.9rem!important;letter-spacing:.02em;}
+#contenedor-cuaderno .cat-content-wrapper{margin-top:5px!important;}
+.cuaderno-cliente-slim{margin-bottom:6px!important;border-left:3px solid #9c27b0!important;border-radius:10px!important;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.10);}
+.cuaderno-cliente-header{min-height:50px!important;padding:8px 11px!important;}
+.cuaderno-cliente-header>div:first-child{gap:7px!important;}
+.cuaderno-cliente-header .cuaderno-deuda-bs{font-size:.88rem!important;}
+.cuaderno-cliente-header .cuaderno-deuda-usd{font-size:.67rem!important;}
+.cuaderno-cliente-body{padding:8px!important;}
+.cuaderno-cliente-tools{display:grid!important;grid-template-columns:minmax(0,1fr) auto;gap:6px!important;margin-bottom:7px!important;}
+.cuaderno-cliente-tools .cuaderno-input-nom{height:36px!important;padding:7px 9px!important;font-size:.82rem!important;}
+.cuaderno-cliente-tools .btn-guardar{height:36px!important;border-radius:8px!important;}
+.cuaderno-registro-card{padding:7px!important;margin-bottom:6px!important;border-radius:9px!important;background:var(--bg-box)!important;}
+.cuaderno-registro-head{padding-bottom:6px!important;margin-bottom:6px!important;}
+.cuaderno-registro-meta{gap:4px!important;}
+.cuaderno-registro-meta input{height:31px!important;font-size:.74rem!important;}
+.cuaderno-registro-actions{gap:4px!important;}
+.btn-cuaderno-action{min-height:31px!important;padding:5px 8px!important;border-radius:7px!important;font-size:.7rem!important;}
+.cuaderno-articulos-label{font-size:8px!important;letter-spacing:.06em!important;margin:0 0 3px!important;}
+.cuaderno-item-row{margin-top:5px!important;padding:6px!important;gap:5px!important;border-radius:8px!important;background:var(--bg-card)!important;}
+.cuaderno-input-nom{height:34px!important;padding:6px 8px!important;font-size:.78rem!important;}
+.cuaderno-input-qty{height:34px!important;padding:6px 4px!important;font-size:.78rem!important;}
+.cuaderno-precios{gap:5px!important;}
+.cuaderno-input-precio{height:34px!important;padding:6px 7px 6px 28px!important;font-size:.78rem!important;}
+.cuaderno-moneda-label{font-size:.62rem!important;left:7px!important;}
+.cuaderno-delete{font-size:13px!important;}
+.cuaderno-add-item,.cuaderno-nueva-nota{height:34px!important;padding:7px!important;margin-top:5px!important;font-size:10px!important;border-radius:7px!important;}
+.cuaderno-deuda-box{padding:7px!important;margin-top:7px!important;border-radius:9px!important;}
+.cuaderno-deuda-label{font-size:9px!important;}
+.cuaderno-deuda-fields{gap:5px!important;}
+.cuaderno-deuda-fields .cuaderno-input-precio{height:34px!important;font-size:.8rem!important;}
+.cuaderno-deuda-fields .btn-guardar{height:34px!important;padding:6px 9px!important;border-radius:7px!important;font-size:.7rem!important;}
+.cuaderno-pago{height:38px!important;margin-top:7px!important;border-radius:8px!important;font-size:10px!important;}
+@media(max-width:600px){
+  #vista-cuaderno{padding-left:8px!important;padding-right:8px!important;}
+  .cuaderno-toolbar{display:grid!important;grid-template-columns:minmax(0,1fr) 44px;align-items:stretch!important;}
+  .cuaderno-btn-nuevo{width:44px!important;min-width:44px!important;padding:8px!important;}
+  .cuaderno-cliente-header{min-height:48px!important;}
+  .cuaderno-registro-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:center!important;}
+  .cuaderno-registro-actions{width:auto!important;justify-content:flex-end!important;}
+  .cuaderno-registro-actions .btn-cuaderno-action{flex:0 0 auto!important;}
+  .cuaderno-registro-meta{min-width:0!important;}
+  .cuaderno-registro-meta input:nth-of-type(1){width:78px!important;}
+  .cuaderno-registro-meta input:nth-of-type(2){width:63px!important;}
+  .cuaderno-registro-meta span:first-child{display:none!important;}
+  .cuaderno-deuda-box{display:grid!important;grid-template-columns:auto 1fr;align-items:center;}
+  .cuaderno-deuda-fields{grid-column:1/-1;width:100%!important;display:grid!important;grid-template-columns:1fr 1fr auto auto;align-items:center;}
+  .cuaderno-deuda-fields .cuaderno-input-precio{min-width:0!important;width:100%!important;}
+}
+@media(max-width:390px){
+  .cuaderno-registro-actions .btn-cuaderno-action{font-size:0!important;padding:5px 7px!important;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(1)::after{content:'✓';font-size:14px;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(2)::after{content:'🛒';font-size:13px;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(3)::after{content:'×';font-size:15px;}
+  .cuaderno-deuda-fields{grid-template-columns:1fr 1fr auto!important;}
+  .cuaderno-deuda-fields button:last-child{display:none!important;}
+}
+</style>
+<style id="cuaderno-profesional-v3">
+/* Cuaderno Virtual — rediseño compacto para uso diario */
+#vista-cuaderno{max-width:980px!important;padding-bottom:14px!important;}
+#contenedor-cuaderno{max-width:940px!important;}
+#contenedor-cuaderno .categoria-section{margin-bottom:6px!important;}
+#contenedor-cuaderno .categoria-header{min-height:40px!important;padding:7px 11px!important;border-radius:9px!important;}
+.cuaderno-cliente-slim{margin-bottom:5px!important;border-left:3px solid #9c27b0!important;border-radius:9px!important;box-shadow:none!important;}
+.cuaderno-cliente-header{min-height:46px!important;padding:7px 10px!important;}
+.cuaderno-cliente-body{padding:7px!important;}
+.cuaderno-cliente-tools{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:5px!important;margin-bottom:6px!important;}
+.cuaderno-cliente-tools .cuaderno-input-nom{height:34px!important;}
+.cuaderno-cliente-tools .btn-guardar{height:34px!important;padding:5px 10px!important;}
+.cuaderno-registro-card{padding:6px!important;margin-bottom:5px!important;border-radius:8px!important;}
+.cuaderno-registro-head{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:6px!important;padding-bottom:5px!important;margin-bottom:5px!important;}
+.cuaderno-registro-meta{gap:4px!important;min-width:0!important;}
+.cuaderno-registro-meta input{height:29px!important;}
+.cuaderno-registro-actions{gap:4px!important;}
+.btn-cuaderno-action{min-height:29px!important;padding:4px 7px!important;border-radius:6px!important;font-size:.67rem!important;}
+.cuaderno-articulos-label{margin-bottom:3px!important;}
+/* Cada producto ocupa solo dos líneas: producto/cantidad arriba, precios abajo. */
+.cuaderno-item-row{display:grid!important;grid-template-columns:minmax(0,1fr) 48px 30px 24px!important;grid-template-rows:34px 32px!important;gap:4px!important;margin-top:4px!important;padding:5px!important;border-radius:7px!important;}
+.cuaderno-item-row > .autocomplete-wrapper{grid-column:1!important;grid-row:1!important;min-width:0!important;}
+.cuaderno-item-row > div:nth-child(2){grid-column:2!important;grid-row:1!important;}
+.cuaderno-item-row > .cuaderno-precios{grid-column:1 / 5!important;grid-row:2!important;display:grid!important;grid-template-columns:1fr 1fr!important;gap:4px!important;min-width:0!important;}
+.cuaderno-item-row > .cuaderno-delete{grid-column:4!important;grid-row:1!important;align-self:center!important;justify-self:center!important;}
+.cuaderno-input-nom,.cuaderno-input-qty,.cuaderno-input-precio{height:32px!important;box-sizing:border-box!important;}
+.cuaderno-input-nom{font-size:.77rem!important;padding:5px 7px!important;}
+.cuaderno-input-qty{width:48px!important;font-size:.77rem!important;padding:5px 2px!important;}
+.cuaderno-input-precio{font-size:.77rem!important;padding:5px 6px 5px 27px!important;}
+.cuaderno-moneda-label{left:6px!important;font-size:.6rem!important;}
+.cuaderno-conversion-hint{display:none!important;}
+.cuaderno-add-item,.cuaderno-nueva-nota{height:32px!important;margin-top:4px!important;padding:5px!important;font-size:10px!important;}
+.cuaderno-deuda-box{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;gap:5px!important;padding:6px!important;margin-top:6px!important;border-radius:8px!important;}
+.cuaderno-deuda-label{align-self:center!important;font-size:9px!important;}
+.cuaderno-deuda-fields{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto auto!important;gap:4px!important;width:100%!important;}
+.cuaderno-deuda-fields .cuaderno-input-precio{height:32px!important;width:100%!important;min-width:0!important;}
+.cuaderno-deuda-fields .btn-guardar{height:32px!important;padding:5px 8px!important;font-size:.67rem!important;white-space:nowrap!important;}
+.cuaderno-pago{height:36px!important;margin-top:5px!important;border-radius:7px!important;font-size:10px!important;padding:7px!important;}
+@media(max-width:700px){
+  #vista-cuaderno{padding-left:6px!important;padding-right:6px!important;}
+  .cuaderno-toolbar{margin-bottom:7px!important;}
+  .cuaderno-btn-nuevo{height:40px!important;}
+  .cuaderno-cliente-header{min-height:44px!important;}
+  .cuaderno-registro-meta input:nth-of-type(1){width:76px!important;}
+  .cuaderno-registro-meta input:nth-of-type(2){width:60px!important;}
+  .cuaderno-registro-meta span:first-child{display:none!important;}
+  .cuaderno-registro-actions .btn-cuaderno-action{font-size:0!important;width:30px!important;height:29px!important;padding:4px!important;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(1)::after{content:'✓';font-size:13px;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(2)::after{content:'🛒';font-size:12px;}
+  .cuaderno-registro-actions .btn-cuaderno-action:nth-child(3)::after{content:'×';font-size:15px;}
+  .cuaderno-cliente-tools .btn-guardar{font-size:0!important;width:38px!important;padding:4px!important;}
+  .cuaderno-cliente-tools .btn-guardar::after{content:'✓';font-size:14px;}
+  .cuaderno-deuda-box{grid-template-columns:1fr!important;}
+  .cuaderno-deuda-label{font-size:9px!important;}
+  .cuaderno-deuda-fields{grid-template-columns:1fr 1fr 34px 34px!important;}
+  .cuaderno-deuda-fields .btn-guardar{font-size:0!important;width:34px!important;padding:4px!important;}
+  .cuaderno-deuda-fields .btn-guardar::after{font-size:13px;}
+  .cuaderno-deuda-fields .btn-guardar:nth-of-type(1)::after{content:'✓';}
+  .cuaderno-deuda-fields .btn-guardar:nth-of-type(2)::after{content:'↻';}
+}
+@media(max-width:390px){
+  .cuaderno-item-row{grid-template-columns:minmax(0,1fr) 44px 26px 22px!important;}
+  .cuaderno-input-qty{width:44px!important;}
+  .cuaderno-registro-meta input:nth-of-type(1){width:70px!important;}
+  .cuaderno-registro-meta input:nth-of-type(2){width:55px!important;}
+  .cuaderno-deuda-fields{grid-template-columns:1fr 1fr 32px!important;}
+  .cuaderno-deuda-fields .btn-guardar:nth-of-type(2){display:none!important;}
+}
+</style>
 </head>
 <body>
 
@@ -321,6 +603,7 @@
         <button class="btn-nav" id="nav-facturas" onclick="cambiarVista('facturas')">🧾 Facturas y Cierre</button>
         <button class="btn-nav" id="nav-cuaderno" onclick="cambiarVista('cuaderno')">📓 Cuaderno Virtual</button>
         <button class="btn-nav" id="nav-admin" onclick="cambiarVista('admin')">⚙️ Inventario</button>
+        <button class="btn-nav" id="nav-inventario" onclick="cambiarVista('inventario')">📦 Inventario Registrado</button>
     </div>
 
     <div class="header-card">
@@ -330,7 +613,7 @@
         <div class="tasa-badge">Dólar: <span id="bodega-tasa">0,00</span> Bs.</div>
     </div>
 
-    <div id="vista-catalogo">
+    <div id="vista-catalogo" class="catalogo-solo-visual">
         <div class="search-container">
             <input type="text" class="search-box" id="input-search" placeholder="🔍 Buscar producto...">
         </div>
@@ -341,22 +624,22 @@
         <div class="pos-container">
             <div class="pos-box">
                 <div class="pos-titulo">
-                    <span>🛒 Ticket de Compra Actual</span>
-                    <button style="background: transparent; color: var(--primary); border: none; font-size: 12px; cursor: pointer; font-weight: bold;" onclick="vaciarTicket()">Vaciar Ticket</button>
+                    <span>🛒 Venta</span>
+                    <button style="background: transparent; color: var(--primary); border: none; font-size: 12px; cursor: pointer; font-weight: bold;" onclick="vaciarTicket()">Vaciar</button>
                 </div>
 
                 <div class="ticket-header-stats">
-                    <span id="ticket-cant-articulos">0 productos seleccionados</span>
-                    <span id="ticket-cant-unidades">0 unidades</span>
+                    <span id="ticket-cant-articulos">0 productos</span>
+                    <span id="ticket-cant-unidades">0 en inventario</span>
                 </div>
 
                 <div class="search-container">
-                    <input type="text" class="search-box" id="input-search-pos" placeholder="🔍 Buscar producto para sumar al ticket...">
+                    <input type="text" class="search-box" id="input-search-pos" placeholder="🔍 Buscar producto...">
                 </div>
 
                 <div class="carpeta-raiz-box">
                     <div class="carpeta-raiz-header" onclick="toggleRaizPos()">
-                        <span>📂 PRODUCTOS (Seleccionar)</span>
+                        <span>📂 Productos</span>
                         <span class="flecha-icon rotado" id="flecha-raiz">▼</span>
                     </div>
                     <div class="cat-content-wrapper colapsado" id="wrapper-raiz-pos">
@@ -365,47 +648,45 @@
                 </div>
 
                 <div id="pos-lista-items">
-                    <p style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 12px;">Selecciona productos de la carpeta superior para armar la venta.</p>
+                    <p style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 12px;">Agrega productos a la venta.</p>
                 </div>
 
                 <div class="totales-pantalla">
-                    <div style="font-size: 12px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Total a Pagar:</div>
+                    <div style="font-size: 11px; color: var(--text-muted); font-weight: 800; text-transform: uppercase;">Total</div>
                     <div class="monto-gran-total" id="pos-total-bs">0,00 Bs.</div>
                     <div class="monto-gran-usd" id="pos-total-usd">$0,00</div>
                 </div>
 
                 <div class="calculadora-vuelto">
-                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Pago y conversión</div>
-                    <div class="pago-equivalencia" style="font-size:10px; margin-top:4px;">Escribe en <strong>Bs</strong> o <strong>USD</strong>. El otro campo se actualiza automáticamente con la tasa actual.</div>
+                    <div style="font-size: 13px; font-weight: 800; color: var(--secondary);">💵 Pago</div>
                     <div class="pago-moneda-grid">
                         <div class="pago-moneda-card">
-                            <label>🇻🇪 Paga con Bs</label>
+                            <label>🇻🇪 Bs</label>
                             <input type="text" inputmode="decimal" class="input-formato-monto" id="pos-pago-bs" placeholder="0,00" oninput="sincronizarPago('bs')">
                             <div class="pago-equivalencia" id="equiv-pago-bs">≈ $0,00</div>
                         </div>
                         <div class="pago-moneda-card">
-                            <label>🇺🇸 Paga con USD</label>
+                            <label>🇺🇸 USD</label>
                             <input type="text" inputmode="decimal" class="input-formato-monto input-conv-usd" id="pos-pago-usd" placeholder="0,00" oninput="sincronizarPago('usd')">
                             <div class="pago-equivalencia" id="equiv-pago-usd">≈ 0,00 Bs.</div>
                         </div>
                     </div>
                     <div class="vuelto-resumen">
-                        <span style="font-size: 13px; font-weight: 700;">Vuelto a entregar</span>
+                        <span style="font-size: 12px; font-weight: 700;">Vuelto</span>
                         <span style="font-size: 18px; font-weight: 900; color: var(--success);" id="pos-vuelto">0,00 Bs.</span>
                     </div>
                 </div>
 
-                <button class="btn-cobrar" onclick="procesarVenta()">✓ Procesar y Cobrar Venta</button>
-                <button class="btn-fiado" onclick="anotarAlCuaderno()">📝 Anotar a Cuaderno (Fiado)</button>
-                <button class="btn-orange" onclick="guardarBorradorManual()">💾 Guardar Borrador de Factura</button>
+                <button class="btn-cobrar" onclick="procesarVenta()">✓ Cobrar</button>
+                <button class="btn-fiado" onclick="anotarAlCuaderno()">📝 Fiado</button>
+                <button class="btn-orange" onclick="guardarBorradorManual()">💾 Borrador</button>
             </div>
         </div>
     </div>
 
     <!-- NUEVA VISTA APARTE: FACTURAS AMPLIADAS Y GESTIÓN DE CAJA -->
     <div id="vista-facturas" class="oculto">
-        <h1 class="titulo-admin" style="color: var(--secondary);">🧾 Historial y Gestión de Facturas</h1>
-        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">Visualiza, navega y consulta las facturas organizadas por fecha y hora de manera limpia, cómoda y amplia.</p>
+        <h1 class="titulo-admin" style="color: var(--secondary); margin-bottom: 16px;">🧾 Historial y Gestión de Facturas</h1>
         
         <div class="pos-container">
             <!-- Selector y Navegador de Días / Facturas Pasadas -->
@@ -460,7 +741,7 @@
                 </div>
 
                 <div style="border-top: 1px dashed var(--border-light); margin-top: 14px; padding-top: 12px; background: var(--bg-box); padding: 12px; border-radius: 10px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight: 700; font-size:13px;">TOTAL UNIDADES DÍA:</span><strong style="color: var(--secondary); font-size: 13px;" id="factura-dia-unds">0 unds</strong></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><span style="font-weight: 700; font-size:13px;">TOTAL CANTIDADES DÍA:</span><strong style="color: var(--secondary); font-size: 13px;" id="factura-dia-unds">0 unds</strong></div>
                     <div style="display:flex; justify-content:space-between;"><span style="font-weight: 700; font-size:13px;">TOTAL VENDIDO DÍA:</span><strong style="color: var(--warning); font-size: 15px;" id="factura-dia-total">0,00 Bs.</strong></div>
                 </div>
             </div>
@@ -468,15 +749,13 @@
     </div>
 
     <div id="vista-cuaderno" class="oculto">
-        <h1 class="titulo-admin" style="color: #9c27b0;">📓 Cuaderno Virtual (Fiados)</h1>
-        <p style="text-align: center; color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Listado de clientes ordenados de la A a la Z. Edita en tiempo real.</p>
-        
-        <div class="search-container" style="margin-bottom: 12px;">
-            <input type="text" class="search-box" id="input-search-cuaderno" placeholder="🔍 Buscar cliente en cuaderno...">
-        </div>
-
-        <div style="max-width: 900px; width: 100%; margin: 0 auto 15px auto; display: flex; justify-content: flex-end;">
-            <button class="btn-cyan" style="width: auto; padding: 10px 20px; font-size: 13px; background: #9c27b0; color: white;" onclick="agregarNuevoClienteFiado()">➕ Agregar Nuevo Cliente</button>
+        <h1 class="titulo-admin cuaderno-titulo">📓 Cuaderno de Fiados</h1>
+        <p class="cuaderno-subtitulo">Clientes y deudas</p>
+        <div class="cuaderno-toolbar">
+            <div class="search-container">
+                <input type="text" class="search-box" id="input-search-cuaderno" placeholder="🔍 Buscar cliente...">
+            </div>
+            <button class="btn-cyan cuaderno-btn-nuevo" style="background:#9c27b0;color:white;" onclick="agregarNuevoClienteFiado()">➕ Nuevo</button>
         </div>
 
         <div id="contenedor-cuaderno" style="max-width: 900px; width: 100%; margin: 0 auto;">Cargando cuaderno...</div>
@@ -492,6 +771,56 @@
                 <div class="recibo-linea" style="display:flex; justify-content:space-between; margin-top: 4px;"><span>Vuelto Entregado:</span><strong style="color: var(--success);" id="recibo-vuelto">0,00 Bs. ($0,00)</strong></div>
             </div>
             <button class="btn-cyan" style="margin-top: 5px; padding: 14px;" onclick="cerrarModalRecibo()">Nueva Venta</button>
+        </div>
+    </div>
+
+
+    <div id="modal-presentaciones" class="modal-overlay oculto">
+        <div class="modal-unidades-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                <div>
+                    <h2 id="presentaciones-titulo" style="font-size:18px;color:var(--secondary);">Unidades de venta</h2>
+                    <div id="presentaciones-subtitulo" style="font-size:10px;color:var(--text-muted);margin-top:2px;"></div>
+                </div>
+                <button onclick="cerrarModalPresentaciones()" style="background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;">✕</button>
+            </div>
+            <div id="selector-presentaciones" class="presentacion-selector"></div>
+            <div id="admin-presentaciones" class="oculto" style="margin-top:12px;"></div>
+        </div>
+    </div>
+
+
+    <div id="modal-editar-venta" class="modal-overlay oculto">
+        <div class="modal-edicion-venta-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                <div>
+                    <h2 style="font-size:16px;color:var(--warning);margin:0;">✏️ Editar venta</h2>
+                    <div id="editar-venta-producto" style="font-size:11px;color:var(--text-muted);margin-top:2px;"></div>
+                </div>
+                <button type="button" onclick="cerrarModalEditarVenta()" style="background:transparent;border:none;color:var(--text-muted);font-size:20px;cursor:pointer;">✕</button>
+            </div>
+            <div class="edicion-venta-resumen">
+                <span id="editar-venta-stock" style="font-size:11px;font-weight:800;color:var(--success);"></span>
+                <span style="font-size:10px;color:var(--text-muted);">Venta</span>
+            </div>
+            <div id="editar-venta-presentacion-wrap" class="oculto edicion-venta-campo" style="margin-bottom:7px;">
+                <label>Presentación</label>
+                <select id="editar-venta-presentacion" onchange="cambiarPresentacionEdicion(this.value)"></select>
+            </div>
+            <div class="edicion-venta-campo">
+                <label id="editar-venta-cantidad-label">Cantidad</label>
+                <input id="editar-venta-cantidad" type="text" inputmode="decimal" autocomplete="off" placeholder="0,375" oninput="actualizarPreviewEdicionVenta()">
+            </div>
+            <div class="edicion-venta-auto-precios">
+                <div class="edicion-venta-precio-editable"><label>Precio Bs.</label><input id="editar-venta-precio-bs" type="text" inputmode="decimal" autocomplete="off" value="0,00" oninput="actualizarPrecioEdicionDesde('bs')"></div>
+                <div class="edicion-venta-precio-editable"><label>Precio USD</label><input id="editar-venta-precio-usd" type="text" inputmode="decimal" autocomplete="off" value="0,00" oninput="actualizarPrecioEdicionDesde('usd')"></div>
+            </div>
+            <div id="editar-venta-conversion" class="edicion-venta-conversion">Base: —</div>
+            <div id="editar-venta-preview" class="edicion-venta-estado"></div>
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                <button type="button" onclick="cerrarModalEditarVenta()" style="flex:1;background:var(--bg-box);border:1px solid var(--border-light);color:var(--text-main);border-radius:8px;padding:11px;font-weight:800;cursor:pointer;">Cancelar</button>
+                <button type="button" onclick="guardarEdicionVenta()" class="btn-orange" style="flex:1;margin-top:0;">Guardar</button>
+            </div>
         </div>
     </div>
 
@@ -519,33 +848,48 @@
 
                 <div class="fila-monedas">
                     <div class="campo-moneda">
-                        <label>Costo en Bolívares (Bs):</label>
+                        <label id="label-costo-bs">Costo en Bolívares (Bs):</label>
                         <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo-bs" placeholder="0,00" oninput="sincronizarCostoProducto('bs')">
                     </div>
                     <div class="campo-moneda">
-                        <label>Costo en Dólares (USD):</label>
+                        <label id="label-costo-usd">Costo en Dólares (USD):</label>
                         <input type="text" inputmode="decimal" class="input-formato-monto" id="p-costo-usd" placeholder="$0,00" oninput="sincronizarCostoProducto('usd')">
                     </div>
                 </div>
                 <div class="ayuda-moneda">💱 Puedes escribir en Bs o en $, el otro precio se convierte automáticamente usando la tasa actual.</div>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                    <div style="flex:1; min-width: 90px;">
+                <div class="inventario-extra">
+                    <div>
+                        <label>Tipo de venta / unidad:</label>
+                        <select id="p-unidad" style="width:100%; background:var(--bg-input); border:1px solid var(--border-light); padding:10px; border-radius:8px; color:var(--text-main); font-size:0.9rem; outline:none;">
+                            <option value="unidad">Unidad (und)</option>
+                            <option value="kg">Kilogramo (kg)</option>
+                            <option value="litro">Litro (L)</option>
+                            <option value="paquete">Paquete</option>
+                            <option value="caja">Caja</option>
+                            <option value="docena">Docena</option>
+                        </select>
+                    </div>
+                    <div>
                         <label>Ganancia (%):</label>
                         <input type="number" step="0.1" id="p-ganancia" placeholder="0">
                     </div>
                 </div>
 
-                <label>Stock:</label>
-                <input type="number" id="p-stock" placeholder="0">
+                <label id="label-stock-producto">Stock disponible (und):</label>
+                <input type="number" id="p-stock" placeholder="0" min="0" step="1">
+                <div class="ayuda-moneda" id="ayuda-unidad-producto">Para productos por kg o litro puedes guardar existencias decimales (ej. 12,500 kg).</div>
 
                 <button class="btn-orange" onclick="registrarProducto()">Guardar Producto</button>
             </div>
         </div>
 
+    </div>
+
+    <div id="vista-inventario" class="oculto">
+        <h1 class="titulo-admin">Inventario Registrado</h1>
         <div class="seccion-inventario">
-            <h2 style="text-align: center; font-size: 16px; margin-bottom: 12px; font-weight: 800;">Inventario Registrado</h2>
             <div class="search-container" style="margin-bottom: 15px;">
-                <input type="text" class="search-box" id="input-search-admin" placeholder="🔍 Buscar producto o carpeta en inventario...">
+                <input type="text" class="search-box" id="input-search-inventario" placeholder="🔍 Buscar producto o carpeta...">
             </div>
             <div id="tabla-categorias"></div>
         </div>
@@ -573,11 +917,6 @@
         let ticketActual = [];
         let diasOffsetSeleccionado = 0;
         let estadoCarpetasCuaderno = {};
-        let facturasEnEdicion = {};
-
-        function escapeHtml(str) {
-            return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
-        }
 
         function escapeAttr(str) {
             if (str === null || str === undefined) return '';
@@ -602,6 +941,16 @@
         function toggleMenu() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+
+        function normalizarTicketGuardado() {
+            ticketActual = (Array.isArray(ticketActual) ? ticketActual : []).map(i => {
+                const prod = productos.find(p => String(p.id) === String(i.id));
+                const unidad = i.unidad || (prod ? obtenerUnidadProducto(prod) : 'unidad');
+                const esPresentacionNueva = !!i.presentacionId || !!i.presentacionNombre || Number(i.factorBase) > 1;
+                const cantidadNormalizada = esPresentacionNueva ? Math.max(1, Math.floor(Number(i.cantidad) || 0)) : redondearCantidad(Number(i.cantidad) || 0, unidad);
+                return { ...i, unidad, unidadVenta: i.unidadVenta || i.unidad || unidad, factorBase: Number(i.factorBase) > 0 ? Number(i.factorBase) : 1, presentacionNombre: i.presentacionNombre || '', cantidad: cantidadNormalizada };
+            }).filter(i => i.cantidad > 0);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -647,6 +996,25 @@
             return isNaN(val) ? 0 : val;
         }
 
+        // Cantidades: a diferencia del dinero, aquí 1.500 significa 1,5 unidades
+        // cuando el producto se vende por kg/L. Se aceptan coma o punto decimal.
+        function parsearCantidad(valor) {
+            if (typeof valor === 'number') return Number.isFinite(valor) ? valor : 0;
+            if (valor === null || valor === undefined || valor === '') return 0;
+            let s = String(valor).trim().replace(/[^0-9,.-]/g, '');
+            if (s.includes(',') && s.includes('.')) {
+                // En cantidades: si hay ambos separadores, el último se toma como decimal.
+                const ultimaComa = s.lastIndexOf(',');
+                const ultimoPunto = s.lastIndexOf('.');
+                if (ultimaComa > ultimoPunto) s = s.replace(/\./g, '').replace(',', '.');
+                else s = s.replace(/,/g, '');
+            } else if (s.includes(',')) {
+                s = s.replace(/,/g, '.');
+            }
+            const n = parseFloat(s);
+            return Number.isFinite(n) ? n : 0;
+        }
+
         // CONVERSIÓN BIDIRECCIONAL DE MONEDAS
         // La base de datos sigue guardando los importes en Bs para no romper la lógica existente.
         function sincronizarCamposMoneda(inputOrigen, inputDestino, monedaOrigen) {
@@ -686,23 +1054,34 @@
 
         function formatearInputEnVivo(input) {
             if (!input) return;
-            let val = String(input.value || '');
+            let val = String(input.value || '').trim();
             if (!val) return;
+            val = val.replace(/[$€£\sA-Za-z]/g, '');
+            if (!val) { input.value = ''; return; }
 
-            // Acepta $, USD, puntos de miles y coma decimal.
-            let limpio = val.replace(/[^0-9,]/g, '');
-            let partes = limpio.split(',');
-            let entero = partes[0] || '';
-            entero = entero.replace(/^0+(?=\d)/, '');
+            // Dinero: acepta 1234,56 / 1.234,56 / 1234.56 y formatea visualmente.
+            let decimal = ''; let entero = '';
+            if (val.includes(',') && val.includes('.')) {
+                const lc = val.lastIndexOf(','); const lp = val.lastIndexOf('.');
+                if (lc > lp) { entero = val.slice(0, lc).replace(/\./g, ''); decimal = val.slice(lc + 1); }
+                else { entero = val.slice(0, lp).replace(/,/g, ''); decimal = val.slice(lp + 1); }
+            } else if (val.includes(',')) {
+                const partes = val.split(','); entero = partes.shift(); decimal = partes.join('');
+            } else if (val.includes('.')) {
+                const partes = val.split('.');
+                const ultimo = partes[partes.length - 1];
+                if (partes.length === 2 && ultimo.length > 0 && ultimo.length <= 2) {
+                    entero = partes[0]; decimal = ultimo;
+                } else {
+                    entero = partes.join(''); decimal = '';
+                }
+            } else { entero = val; }
+
+            entero = entero.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
             if (entero === '') entero = '0';
             entero = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-
-            if (partes.length > 1) {
-                const decimales = partes[1].slice(0, 2);
-                input.value = entero + ',' + decimales;
-            } else {
-                input.value = val.includes(',') ? entero + ',' : entero;
-            }
+            decimal = decimal.replace(/\D/g, '').slice(0, 2);
+            input.value = decimal.length > 0 || /[,.]$/.test(val) ? entero + ',' + decimal : entero;
         }
         document.addEventListener('input', function(e) { 
             if (e.target && e.target.classList.contains('input-formato-monto') && !e.target.classList.contains('input-conv-usd')) { 
@@ -745,12 +1124,14 @@
             document.getElementById('vista-facturas').classList.add('oculto');
             document.getElementById('vista-admin').classList.add('oculto');
             document.getElementById('vista-cuaderno').classList.add('oculto');
+            document.getElementById('vista-inventario').classList.add('oculto');
 
             document.getElementById('nav-cat').classList.remove('activo');
             document.getElementById('nav-pos').classList.remove('activo');
             document.getElementById('nav-facturas').classList.remove('activo');
             document.getElementById('nav-admin').classList.remove('activo');
             document.getElementById('nav-cuaderno').classList.remove('activo');
+            document.getElementById('nav-inventario').classList.remove('activo');
 
             if (vista === 'pos') {
                 document.getElementById('vista-pos').classList.remove('oculto');
@@ -764,6 +1145,10 @@
                 document.getElementById('vista-admin').classList.remove('oculto');
                 document.getElementById('nav-admin').classList.add('activo');
                 cargarAdmin();
+            } else if (vista === 'inventario') {
+                document.getElementById('vista-inventario').classList.remove('oculto');
+                document.getElementById('nav-inventario').classList.add('activo');
+                renderTablasAdmin(document.getElementById('input-search-inventario') ? document.getElementById('input-search-inventario').value : '');
             } else if (vista === 'cuaderno') {
                 document.getElementById('vista-cuaderno').classList.remove('oculto');
                 document.getElementById('nav-cuaderno').classList.add('activo');
@@ -789,6 +1174,7 @@
             else if (!document.getElementById('vista-pos').classList.contains('oculto')) { cargarPosCatalogo(); renderTicket(); }
             else if (!document.getElementById('vista-facturas').classList.contains('oculto')) renderCierreCaja();
             else if (!document.getElementById('vista-admin').classList.contains('oculto')) cargarAdmin();
+            else if (!document.getElementById('vista-inventario').classList.contains('oculto')) renderTablasAdmin(document.getElementById('input-search-inventario') ? document.getElementById('input-search-inventario').value : '');
             else if (!document.getElementById('vista-cuaderno').classList.contains('oculto')) renderCuaderno();
         }
 
@@ -819,7 +1205,9 @@
                 categorias[cat].sort((a, b) => String(a.nombre).localeCompare(String(b.nombre))).forEach(p => {
                     const precioFinalBs = (parsearMonto(p.costoBs) || 0) * (1 + (parseFloat(p.ganancia) || 0) / 100);
                     const stockNum = p.stock !== undefined ? p.stock : 0;
-                    html += `<div class="fila-producto-compacta" onclick="agregarAlTicket('${escapeAttr(p.id)}')"><div class="prod-info-left"><span class="prod-nombre-linea">${p.nombre}</span><span class="prod-stock ${stockNum <= 3 ? 'stock-bajo' : ''}">${stockNum} und</span></div><div class="prod-info-right"><span class="precio-bs">${formatearNumero(precioFinalBs)} Bs.</span><span class="precio-ref">$${formatearNumero(tasaNum > 0 ? precioFinalBs / tasaNum : 0)}</span></div></div>`;
+                    const unidad = obtenerUnidadProducto(p);
+                    const stockTexto = formatearCantidadUnidad(stockNum, unidad);
+                    html += `<div class="fila-producto-compacta"><div class="prod-info-left"><span class="prod-nombre-linea">${p.nombre}</span><span class="prod-stock ${stockNum <= stockMinimoUnidad(unidad) ? 'stock-bajo' : ''}">${stockTexto}</span><span class="unidad-badge">${etiquetaUnidad(unidad)}</span></div><div class="prod-info-right"><span class="precio-bs">${formatearNumero(precioFinalBs)} Bs./${etiquetaUnidad(unidad)}</span><span class="precio-ref">$${formatearNumero(tasaNum > 0 ? precioFinalBs / tasaNum : 0)}</span></div></div>`;
                 });
                 contenedor.innerHTML += html + '</div></div></div></div>';
             });
@@ -856,72 +1244,527 @@
                 categorias[cat].sort((a, b) => String(a.nombre).localeCompare(String(b.nombre))).forEach(p => {
                     const precioFinalBs = (parsearMonto(p.costoBs) || 0) * (1 + (parseFloat(p.ganancia) || 0) / 100);
                     const stockNum = p.stock !== undefined ? p.stock : 0;
-                    html += `<div class="fila-producto-compacta" onclick="agregarAlTicket('${escapeAttr(p.id)}')"><div class="prod-info-left"><span class="prod-nombre-linea">${p.nombre}</span><span class="prod-stock ${stockNum <= 3 ? 'stock-bajo' : ''}">${stockNum} und</span></div><div class="prod-info-right"><span class="precio-bs">${formatearNumero(precioFinalBs)} Bs.</span><span class="precio-ref">$${formatearNumero(tasaNum > 0 ? precioFinalBs / tasaNum : 0)}</span></div></div>`;
+                    const unidad = obtenerUnidadProducto(p);
+                    const stockTexto = formatearCantidadUnidad(stockNum, unidad);
+                    html += `<div class="fila-producto-compacta" onclick="agregarAlTicket('${escapeAttr(p.id)}')"><div class="prod-info-left"><span class="prod-nombre-linea">${p.nombre}</span><span class="prod-stock ${stockNum <= stockMinimoUnidad(unidad) ? 'stock-bajo' : ''}">${stockTexto}</span><span class="unidad-badge">${etiquetaUnidad(unidad)}</span></div><div class="prod-info-right"><span class="precio-bs">${formatearNumero(precioFinalBs)} Bs./${etiquetaUnidad(unidad)}</span><span class="precio-ref">$${formatearNumero(tasaNum > 0 ? precioFinalBs / tasaNum : 0)}</span></div></div>`;
                 });
                 contenedor.innerHTML += html + '</div></div></div></div>';
             });
         }
 
-        // TICKET & POS LOGIC
-        function agregarAlTicket(id) {
-            const prod = productos.find(p => String(p.id) === String(id));
-            if (!prod) {
-                alert('⚠️ El producto no está registrado en el catálogo.');
-                return;
+        // TICKET & POS LOGIC — INVENTARIO DETALLADO POR PRESENTACIÓN
+        const UNIDADES_PRODUCTO = {
+            unidad: { label: 'Unidad', short: 'und', step: 1, decimals: 0, min: 1 },
+            kg: { label: 'Kilogramo', short: 'kg', step: 0.001, decimals: 3, min: 0.001 },
+            litro: { label: 'Litro', short: 'L', step: 0.001, decimals: 3, min: 0.001 },
+            paquete: { label: 'Paquete', short: 'paq', step: 1, decimals: 0, min: 1 },
+            caja: { label: 'Caja', short: 'caja', step: 1, decimals: 0, min: 1 },
+            docena: { label: 'Docena', short: 'doc', step: 1, decimals: 0, min: 1 }
+        };
+
+        const UNIDADES_DETALLADAS = {
+            mg: {label:'Miligramo', short:'mg', factor:0.000001, decimals:6, categoria:'peso'},
+            g: {label:'Gramo', short:'g', factor:0.001, decimals:3, categoria:'peso'},
+            kg: {label:'Kilogramo', short:'kg', factor:1, decimals:3, categoria:'peso'},
+            ml: {label:'Mililitro', short:'ml', factor:0.001, decimals:3, categoria:'volumen'},
+            litro: {label:'Litro', short:'L', factor:1, decimals:3, categoria:'volumen'},
+            unidad: {label:'Unidad', short:'und', factor:1, decimals:0, categoria:'conteo'},
+            media_docena: {label:'Media docena', short:'1/2 doc', factor:6, decimals:0, categoria:'conteo'},
+            docena: {label:'Docena', short:'doc', factor:12, decimals:0, categoria:'conteo'},
+            paquete: {label:'Paquete', short:'paq', factor:1, decimals:0, categoria:'empaque'},
+            caja: {label:'Caja', short:'caja', factor:1, decimals:0, categoria:'empaque'}
+        };
+
+        function obtenerUnidadProducto(p) {
+            return UNIDADES_PRODUCTO[p && p.unidad] ? p.unidad : 'unidad';
+        }
+        function etiquetaUnidad(unidad) { return (UNIDADES_PRODUCTO[unidad] || UNIDADES_DETALLADAS[unidad] || UNIDADES_PRODUCTO.unidad).short; }
+        function obtenerPasoUnidad(unidad) { return (UNIDADES_PRODUCTO[unidad] || UNIDADES_PRODUCTO.unidad).step; }
+        function redondearCantidad(cantidad, unidad) {
+            const def = UNIDADES_PRODUCTO[unidad] || UNIDADES_PRODUCTO.unidad;
+            const n = Number(cantidad);
+            if (!Number.isFinite(n)) return 0;
+            return Number(n.toFixed(def.decimals));
+        }
+        function formatearCantidadUnidad(cantidad, unidad) {
+            const def = UNIDADES_PRODUCTO[unidad] || UNIDADES_PRODUCTO.unidad;
+            const n = Number(cantidad) || 0;
+            return n.toLocaleString('es-VE', { minimumFractionDigits: def.decimals === 0 ? 0 : Math.min(def.decimals, 3), maximumFractionDigits: def.decimals === 0 ? 0 : def.decimals }) + ' ' + def.short;
+        }
+        function stockMinimoUnidad(unidad) { return unidad === 'kg' || unidad === 'litro' ? 0.5 : 3; }
+
+        function factorBasePresentacion(p, presentacion) {
+            if (!presentacion) return 1;
+            const factor = Number(presentacion.factorBase);
+            return Number.isFinite(factor) && factor > 0 ? factor : 1;
+        }
+        function unidadBaseLabel(p) {
+            const u = obtenerUnidadProducto(p);
+            return etiquetaUnidad(u);
+        }
+        function normalizarPresentacionesProducto(p) {
+            if (!p) return [];
+            const base = obtenerUnidadProducto(p);
+            if (Array.isArray(p.presentaciones) && p.presentaciones.length) {
+                return p.presentaciones.map((x, idx) => ({
+                    id: x.id || ('pres_' + idx + '_' + base),
+                    nombre: x.nombre || x.label || etiquetaUnidad(x.unidad || base),
+                    unidad: x.unidad || base,
+                    factorBase: Number(x.factorBase) > 0 ? Number(x.factorBase) : 1,
+                    precioBs: Number(parsearMonto(x.precioBs)) || 0
+                })).filter(x => x.factorBase > 0);
             }
-            const stockDisponible = prod.stock !== undefined ? parseInt(prod.stock) : 0;
-
-            let item = ticketActual.find(i => String(i.id) === String(id));
-            const cantidadActual = item ? item.cantidad : 0;
-
-            if (stockDisponible > 0 && cantidadActual + 1 > stockDisponible) {
-                alert('⚠️ Estás superando el stock disponible actual de ' + prod.nombre + ' (' + stockDisponible + ' unds).');
+            const costoBs = Number(parsearMonto(p.costoBs)) || 0;
+            const gan = Number(p.ganancia) || 0;
+            const precioBase = costoBs * (1 + gan / 100);
+            const defaults = [];
+            if (base === 'kg') {
+                defaults.push({id:'g250',nombre:'250 g',unidad:'g',factorBase:0.25,precioBs:precioBase*0.25});
+                defaults.push({id:'g500',nombre:'500 g',unidad:'g',factorBase:0.5,precioBs:precioBase*0.5});
+                defaults.push({id:'kg1',nombre:'1 kg',unidad:'kg',factorBase:1,precioBs:precioBase});
+                defaults.push({id:'kg2',nombre:'2 kg',unidad:'kg',factorBase:2,precioBs:precioBase*2});
+                defaults.push({id:'kg5',nombre:'5 kg',unidad:'kg',factorBase:5,precioBs:precioBase*5});
+            } else if (base === 'litro') {
+                defaults.push({id:'ml250',nombre:'250 ml',unidad:'ml',factorBase:0.25,precioBs:precioBase*0.25});
+                defaults.push({id:'ml500',nombre:'500 ml',unidad:'ml',factorBase:0.5,precioBs:precioBase*0.5});
+                defaults.push({id:'l1',nombre:'1 L',unidad:'litro',factorBase:1,precioBs:precioBase});
+                defaults.push({id:'l2',nombre:'2 L',unidad:'litro',factorBase:2,precioBs:precioBase*2});
+            } else if (base === 'unidad') {
+                defaults.push({id:'und1',nombre:'1 unidad',unidad:'unidad',factorBase:1,precioBs:precioBase});
+                defaults.push({id:'doc12',nombre:'1 docena',unidad:'docena',factorBase:12,precioBs:precioBase*12});
+            } else {
+                defaults.push({id:'base1',nombre:'1 ' + etiquetaUnidad(base),unidad:base,factorBase:1,precioBs:precioBase});
             }
+            return defaults;
+        }
 
-            const precioBs = (parsearMonto(prod.costoBs) || 0) * (1 + (parseFloat(prod.ganancia) || 0) / 100);
-            if (item) item.cantidad += 1;
-            else ticketActual.push({ id: prod.id, nombre: prod.nombre, precioBs: precioBs, costoBs: parsearMonto(prod.costoBs) || 0, cantidad: 1 });
+        function descripcionStockParaPresentacion(p, pres) {
+            const stock = Number(p.stock) || 0;
+            const factor = factorBasePresentacion(p, pres);
+            const disponibles = factor > 0 ? Math.floor((stock + 1e-9) / factor * 1000) / 1000 : 0;
+            return `Stock: ${formatearCantidadUnidad(stock, obtenerUnidadProducto(p))} · alcanza para ${disponibles} ${pres.nombre}`;
+        }
+
+        function abrirSelectorPresentaciones(p) {
+            const pres = normalizarPresentacionesProducto(p);
+            const selector = document.getElementById('selector-presentaciones');
+            document.getElementById('presentaciones-titulo').textContent = '🧺 ' + p.nombre;
+            document.getElementById('presentaciones-subtitulo').textContent = 'Elige presentación · stock en ' + unidadBaseLabel(p);
+            let html = '';
+            pres.forEach((x, idx) => {
+                const precio = Number(x.precioBs) || 0;
+                const stock = Number(p.stock) || 0;
+                const posible = stock + 1e-9 >= factorBasePresentacion(p, x);
+                html += `<button class="presentacion-btn" ${posible ? '' : 'disabled style="opacity:.45;cursor:not-allowed;"'} onclick="seleccionarPresentacionTicket('${escapeAttr(p.id)}', ${idx})"><strong>${escapeAttr(x.nombre)}</strong><small>${formatearNumero(precio)} Bs. · ${escapeAttr(descripcionStockParaPresentacion(p,x))}</small></button>`;
+            });
+            selector.innerHTML = html || '<div style="color:var(--text-muted);font-size:12px;padding:10px;">Este producto no tiene presentaciones configuradas.</div>';
+            selector.dataset.productId = p.id;
+            selector.dataset.presentaciones = JSON.stringify(pres);
+            document.getElementById('admin-presentaciones').classList.add('oculto');
+            document.getElementById('modal-presentaciones').classList.remove('oculto');
+        }
+
+        function seleccionarPresentacionTicket(id, idx) {
+            const p = productos.find(x => String(x.id) === String(id));
+            if (!p) return;
+            const pres = normalizarPresentacionesProducto(p);
+            const x = pres[idx];
+            if (!x) return;
+            const factor = factorBasePresentacion(p, x);
+            const stock = Number(p.stock) || 0;
+            if (factor > stock + 1e-9) return alert(`⚠️ Stock insuficiente. Disponible: ${formatearCantidadUnidad(stock, obtenerUnidadProducto(p))}.`);
+            let item = ticketActual.find(i => String(i.id) === String(id) && String(i.presentacionId) === String(x.id));
+            if (item) {
+                const nueva = Number(item.cantidad) + 1;
+                if (nueva * factor > stock + 1e-9) return alert('⚠️ No hay suficiente stock para agregar otra presentación.');
+                item.cantidad = nueva;
+            } else {
+                ticketActual.push({ id:p.id, nombre:p.nombre, precioBs:Number(x.precioBs)||0, costoBs:Number(parsearMonto(p.costoBs))||0, cantidad:1, unidad:x.unidad || obtenerUnidadProducto(p), unidadVenta:x.unidad || obtenerUnidadProducto(p), factorBase:factor, presentacionId:x.id, presentacionNombre:x.nombre });
+            }
+            cerrarModalPresentaciones();
             renderTicket();
         }
 
-        function cambiarCantidadTicket(id, delta) {
-            let item = ticketActual.find(i => String(i.id) === String(id));
-            if (!item) return;
-            item.cantidad += delta;
-            if (item.cantidad <= 0) eliminarItemTicket(id);
-            else renderTicket();
+        function abrirEditorPresentaciones(id) {
+            const p = productos.find(x => String(x.id) === String(id));
+            if (!p) return;
+            const pres = normalizarPresentacionesProducto(p);
+            document.getElementById('presentaciones-titulo').textContent = '⚙️ Unidades de ' + p.nombre;
+            document.getElementById('presentaciones-subtitulo').textContent = 'Base: ' + unidadBaseLabel(p);
+            const selector = document.getElementById('selector-presentaciones');
+            selector.innerHTML = '';
+            const admin = document.getElementById('admin-presentaciones');
+            admin.classList.remove('oculto');
+            admin.dataset.productId = p.id;
+            let html = '<div style="font-size:10px;color:var(--text-muted);margin-bottom:7px;">Presentación · cantidad base · precio</div><div id="lista-editor-presentaciones">';
+            pres.forEach((x, idx) => {
+                html += `<div class="unidad-config-row" data-index="${idx}">
+                    <div><label>Nombre visible</label><input class="pres-nombre" value="${escapeAttr(x.nombre)}"></div>
+                    <div><label>Factor base</label><input class="pres-factor" type="number" step="any" min="0.000001" value="${x.factorBase}"></div>
+                    <div><label>Precio Bs.</label><input class="pres-precio input-formato-monto" inputmode="decimal" value="${formatearNumero(x.precioBs)}"></div>
+                    <button class="btn-borrar-unidad" onclick="this.parentElement.remove()">✕</button>
+                </div>`;
+            });
+            html += '</div><button class="btn-cyan" style="margin-top:8px;" onclick="agregarFilaPresentacionEditor()">＋ Agregar presentación</button><button class="btn-cobrar" style="margin-top:8px;background:var(--success);" onclick="guardarPresentaciones()">✓ Guardar unidades de venta</button><button class="btn-orange" onclick="restaurarPresentacionesAutomaticas()">↺ Restaurar sugeridas</button>';
+            admin.innerHTML = html;
+            document.getElementById('modal-presentaciones').classList.remove('oculto');
         }
 
-        function eliminarItemTicket(id) { ticketActual = ticketActual.filter(i => String(i.id) !== String(id)); renderTicket(); }
+        function agregarFilaPresentacionEditor(nombre='', factor=1, precio=0) {
+            const cont = document.getElementById('lista-editor-presentaciones');
+            if (!cont) return;
+            const div = document.createElement('div'); div.className='unidad-config-row';
+            div.innerHTML = `<div><label>Nombre visible</label><input class="pres-nombre" value="${escapeAttr(nombre)}" placeholder="Ej. 500 g"></div><div><label>Factor base</label><input class="pres-factor" type="number" step="any" min="0.000001" value="${factor}"></div><div><label>Precio Bs.</label><input class="pres-precio input-formato-monto" inputmode="decimal" value="${formatearNumero(precio)}"></div><button class="btn-borrar-unidad" onclick="this.parentElement.remove()">✕</button>`;
+            cont.appendChild(div);
+        }
+
+        function guardarPresentaciones() {
+            const admin = document.getElementById('admin-presentaciones');
+            const id = admin.dataset.productId;
+            const p = productos.find(x => String(x.id) === String(id));
+            if (!p) return;
+            const filas = Array.from(document.querySelectorAll('#lista-editor-presentaciones .unidad-config-row'));
+            const base = obtenerUnidadProducto(p);
+            const pres = [];
+            for (const fila of filas) {
+                const nombre = fila.querySelector('.pres-nombre').value.trim();
+                const factor = parseFloat(fila.querySelector('.pres-factor').value);
+                const precioBs = parsearMonto(fila.querySelector('.pres-precio').value);
+                if (!nombre || !Number.isFinite(factor) || factor <= 0 || precioBs < 0) return alert('⚠️ Revisa nombre, factor y precio de cada presentación.');
+                pres.push({id:'pres_'+Date.now()+'_'+pres.length, nombre, unidad:base, factorBase:factor, precioBs});
+            }
+            if (!pres.length) return alert('Agrega al menos una presentación.');
+            db.ref('abasto/productos/' + id + '/presentaciones').set(pres).then(() => { alert('✅ Unidades de venta guardadas.'); cerrarModalPresentaciones(); }).catch(e => alert('Error: '+e.message));
+        }
+
+        function restaurarPresentacionesAutomaticas() {
+            const admin = document.getElementById('admin-presentaciones');
+            const p = productos.find(x => String(x.id) === String(admin.dataset.productId));
+            if (!p) return;
+            const pres = normalizarPresentacionesProducto({...p, presentaciones:null});
+            const cont = document.getElementById('lista-editor-presentaciones');
+            if (!cont) return;
+            cont.innerHTML='';
+            pres.forEach(x => agregarFilaPresentacionEditor(x.nombre, x.factorBase, x.precioBs));
+        }
+
+        function cerrarModalPresentaciones() { document.getElementById('modal-presentaciones').classList.add('oculto'); }
+
+        function actualizarCamposUnidadProducto() {
+            const unidad = document.getElementById('p-unidad') ? document.getElementById('p-unidad').value : 'unidad';
+            const def = UNIDADES_PRODUCTO[unidad] || UNIDADES_PRODUCTO.unidad;
+            const label = document.getElementById('label-stock-producto');
+            const stock = document.getElementById('p-stock');
+            const ayuda = document.getElementById('ayuda-unidad-producto');
+            const costoBsLabel = document.getElementById('label-costo-bs');
+            const costoUsdLabel = document.getElementById('label-costo-usd');
+            if (label) label.textContent = `Stock disponible (${def.short}):`;
+            if (costoBsLabel) costoBsLabel.textContent = `Costo por ${def.short} en Bolívares (Bs):`;
+            if (costoUsdLabel) costoUsdLabel.textContent = `Costo por ${def.short} en Dólares (USD):`;
+            if (stock) { stock.step = def.step; stock.min = '0'; stock.placeholder = def.decimals ? 'Ej. 12,500' : '0'; }
+            if (ayuda) ayuda.textContent = def.decimals ? `El inventario se controla en ${def.label.toLowerCase()}s y permite fracciones. Luego puedes configurar gramos/ml y otras presentaciones.` : `El inventario se controla por ${def.label.toLowerCase()}s completos. Luego puedes configurar paquetes, cajas o docenas.`;
+        }
+
+        function agregarAlTicket(id) {
+            const prod = productos.find(p => String(p.id) === String(id));
+            if (!prod) return alert('⚠️ El producto no está registrado en el catálogo.');
+            const stockDisponible = Number(prod.stock) || 0;
+            if (stockDisponible <= 0) return alert(`⚠️ ${prod.nombre} no tiene stock disponible.`);
+
+            const base = obtenerUnidadProducto(prod);
+            const pres = normalizarPresentacionesProducto(prod);
+            const primera = pres.find(x => (Number(prod.stock)||0) + 1e-9 >= factorBasePresentacion(prod,x)) || pres[0];
+
+            // Una sola interfaz de venta: peso/volumen y unidades entran directo al editor.
+            // Las presentaciones de unidades se cambian dentro del editor, sin modal azul.
+            if (base === 'kg' || base === 'litro') {
+                const precioBase = precioVentaBaseProducto(prod);
+                const item = {
+                    id: prod.id, nombre: prod.nombre, precioBs: precioBase,
+                    costoBs: Number(parsearMonto(prod.costoBs)) || 0, cantidad: 1,
+                    unidad: base, unidadVenta: base, factorBase: 1,
+                    presentacionId: 'manual_' + Date.now(),
+                    presentacionNombre: unidadBaseLabel(prod),
+                    ventaPersonalizada: true, _nuevoVentaLibre: true
+                };
+                ticketActual.push(item);
+                abrirEditorVenta(prod.id, item.presentacionId);
+                if (itemEditandoVenta) itemEditandoVenta._nuevoVentaLibre = true;
+                return;
+            }
+
+            const x = primera || {id:'manual_'+Date.now(), nombre:unidadBaseLabel(prod), unidad:base, factorBase:1, precioBs:precioVentaBaseProducto(prod)};
+            const item = {
+                id: prod.id, nombre: prod.nombre, precioBs: Number(x.precioBs)||0,
+                costoBs: Number(parsearMonto(prod.costoBs))||0, cantidad:1,
+                unidad:x.unidad || base, unidadVenta:x.unidad || base, factorBase:factorBasePresentacion(prod,x),
+                presentacionId:x.id || ('manual_'+Date.now()), presentacionNombre:x.nombre || unidadBaseLabel(prod),
+                ventaPersonalizada:false, _nuevoVentaLibre:true
+            };
+            ticketActual.push(item);
+            abrirEditorVenta(prod.id, item.presentacionId);
+            if (itemEditandoVenta) itemEditandoVenta._nuevoVentaLibre = true;
+        }
+
+        let itemEditandoVenta = null;
+
+        function factorCantidadExacta(valor, unidadBase) {
+            let texto = String(valor ?? '').trim().toLowerCase();
+            if (!texto) return 0;
+            const numero = parsearCantidad(texto);
+            if (!Number.isFinite(numero) || numero <= 0) return 0;
+            if (unidadBase === 'kg' && /g\b/.test(texto) && !/kg/.test(texto)) return numero / 1000;
+            if (unidadBase === 'litro' && /ml\b/.test(texto) && !/l(?:itro)?\b/.test(texto)) return numero / 1000;
+            return numero;
+        }
+
+        function etiquetaCantidadExacta(unidadBase) {
+            if (unidadBase === 'kg') return 'Cantidad exacta (kg)';
+            if (unidadBase === 'litro') return 'Cantidad exacta (L)';
+            if (unidadBase === 'unidad') return 'Cantidad exacta (unidades)';
+            return 'Cantidad exacta (' + etiquetaUnidad(unidadBase) + ')';
+        }
+
+        function precioVentaBaseProducto(prod) {
+            if (!prod) return 0;
+            const costo = Number(parsearMonto(prod.costoBs)) || 0;
+            const ganancia = Number(prod.ganancia) || 0;
+            const calculado = costo * (1 + ganancia / 100);
+            if (calculado > 0) return calculado;
+            const base = obtenerUnidadProducto(prod);
+            const pres = normalizarPresentacionesProducto(prod).find(x => Math.abs((Number(x.factorBase)||0) - 1) < 1e-9 && (x.unidad === base || base === 'kg' || base === 'litro'));
+            return pres ? (Number(pres.precioBs) || 0) : 0;
+        }
+
+        function abrirEditorVenta(id, presentacionId) {
+            const item = ticketActual.find(i => String(i.id) === String(id) && String(i.presentacionId || '') === String(presentacionId || '')) || ticketActual.find(i => String(i.id) === String(id) && !presentacionId);
+            if (!item) return;
+            const prod = productos.find(p => String(p.id) === String(id));
+            if (!prod) return;
+            const unidadBase = obtenerUnidadProducto(prod);
+            itemEditandoVenta = item;
+            precioEdicionManual = false;
+
+            const wrap = document.getElementById('editar-venta-presentacion-wrap');
+            const select = document.getElementById('editar-venta-presentacion');
+            const pres = normalizarPresentacionesProducto(prod);
+            if (wrap && select) {
+                if (unidadBase === 'kg' || unidadBase === 'litro') {
+                    wrap.classList.add('oculto');
+                    select.innerHTML = '';
+                } else {
+                    const actual = String(item.presentacionId || '');
+                    select.innerHTML = pres.map(x => `<option value="${escapeAttr(x.id)}" ${String(x.id)===actual?'selected':''}>${escapeAttr(x.nombre)} · ${formatearNumero(Number(x.precioBs)||0)} Bs.</option>`).join('');
+                    wrap.classList.toggle('oculto', pres.length <= 1);
+                }
+            }
+
+            const factor = Number(item.factorBase) || 1;
+            const cantidadExacta = factor * (Number(item.cantidad) || 1);
+            const cantidadInput = document.getElementById('editar-venta-cantidad');
+            const precioInicial = (unidadBase === 'kg' || unidadBase === 'litro') ? factor * precioVentaBaseProducto(prod) : (Number(item.precioBs)||0) * (Number(item.cantidad)||1);
+            const tasaInicial = parsearMonto(config.tasaDolar) || 1;
+            document.getElementById('editar-venta-precio-bs').value = formatearNumero(precioInicial);
+            document.getElementById('editar-venta-precio-usd').value = formatearNumero(precioInicial / tasaInicial);
+            document.getElementById('editar-venta-producto').textContent = prod.nombre;
+            document.getElementById('editar-venta-stock').textContent = 'Stock: ' + formatearCantidadUnidad(Number(prod.stock)||0, unidadBase);
+            document.getElementById('editar-venta-cantidad-label').textContent = (unidadBase === 'kg' || unidadBase === 'litro') ? etiquetaCantidadExacta(unidadBase) : 'Cantidad';
+            if (unidadBase === 'kg' || unidadBase === 'litro') {
+                cantidadInput.value = unidadBase === 'kg' ? formatearNumero(cantidadExacta) : formatearNumero(cantidadExacta);
+            } else {
+                cantidadInput.value = String(Number(item.cantidad)||1);
+            }
+            actualizarPreviewEdicionVenta();
+            document.getElementById('modal-editar-venta').classList.remove('oculto');
+            cantidadInput.focus();
+            cantidadInput.select();
+        }
+
+        function cambiarPresentacionEdicion(idPres) {
+            if (!itemEditandoVenta) return;
+            const prod = productos.find(p => String(p.id) === String(itemEditandoVenta.id));
+            if (!prod) return;
+            const pres = normalizarPresentacionesProducto(prod).find(x => String(x.id) === String(idPres));
+            if (!pres) return;
+            const factor = factorBasePresentacion(prod, pres);
+            if (factor > (Number(prod.stock)||0) + 1e-9) return alert('⚠️ No hay stock para esa presentación.');
+            itemEditandoVenta.presentacionId = pres.id;
+            itemEditandoVenta.presentacionNombre = pres.nombre;
+            itemEditandoVenta.factorBase = factor;
+            itemEditandoVenta.unidad = pres.unidad || obtenerUnidadProducto(prod);
+            itemEditandoVenta.unidadVenta = pres.unidad || obtenerUnidadProducto(prod);
+            itemEditandoVenta.cantidad = 1;
+            precioEdicionManual = false;
+            document.getElementById('editar-venta-cantidad').value = '1';
+            actualizarPreciosAutomaticosEdicion(factor, precioVentaBaseProducto(prod));
+            actualizarPreviewEdicionVenta(false);
+        }
+
+        let precioEdicionManual = false;
+        let ultimoPrecioBaseEdicion = 0;
+
+        function actualizarPrecioEdicion() { actualizarPreviewEdicionVenta(); }
+
+        function actualizarPrecioEdicionDesde(medio) {
+            if (!itemEditandoVenta) return;
+            const tasa = parsearMonto(config.tasaDolar) || 1;
+            const bsInput = document.getElementById('editar-venta-precio-bs');
+            const usdInput = document.getElementById('editar-venta-precio-usd');
+            const cantidadInput = document.getElementById('editar-venta-cantidad');
+            if (!bsInput || !usdInput || !cantidadInput) return;
+
+            const prod = productos.find(p => String(p.id) === String(itemEditandoVenta.id));
+            const precioBase = precioVentaBaseProducto(prod);
+            const unidadBase = prod ? obtenerUnidadProducto(prod) : 'unidad';
+
+            // El campo que se está editando manda. Los otros dos se calculan
+            // automáticamente para que cantidad, Bs y USD siempre queden sincronizados.
+            if (medio === 'bs') {
+                const bs = parsearMonto(bsInput.value);
+                if (Number.isFinite(bs) && bs >= 0) {
+                    usdInput.value = formatearNumero(bs / tasa);
+                    if (precioBase > 0) cantidadInput.value = formatearNumero(bs / precioBase);
+                }
+            } else {
+                const usd = parsearMonto(usdInput.value);
+                if (Number.isFinite(usd) && usd >= 0) {
+                    const bs = usd * tasa;
+                    bsInput.value = formatearNumero(bs);
+                    if (precioBase > 0) cantidadInput.value = formatearNumero(bs / precioBase);
+                }
+            }
+            precioEdicionManual = true;
+            actualizarPreviewEdicionVenta(false);
+        }
+
+        function actualizarPreciosAutomaticosEdicion(factor, precioBase) {
+            const tasa = parsearMonto(config.tasaDolar) || 1;
+            const bsInput = document.getElementById('editar-venta-precio-bs');
+            const usdInput = document.getElementById('editar-venta-precio-usd');
+            const precio = factor * precioBase;
+            if (bsInput) bsInput.value = formatearNumero(precio);
+            if (usdInput) usdInput.value = formatearNumero(tasa > 0 ? precio / tasa : 0);
+            ultimoPrecioBaseEdicion = precioBase;
+            precioEdicionManual = false;
+        }
+
+        function actualizarPreviewEdicionVenta(recalcularPrecio = true) {
+            if (!itemEditandoVenta) return;
+            const prod = productos.find(p => String(p.id) === String(itemEditandoVenta.id));
+            if (!prod) return;
+            const unidadBase = obtenerUnidadProducto(prod);
+            const cantidadTexto = document.getElementById('editar-venta-cantidad').value;
+            const factor = factorCantidadExacta(cantidadTexto, unidadBase);
+            const precioBase = precioVentaBaseProducto(prod);
+            const tasa = parsearMonto(config.tasaDolar) || 1;
+            if (recalcularPrecio && factor > 0) actualizarPreciosAutomaticosEdicion(factor, precioBase);
+            const bsInput = document.getElementById('editar-venta-precio-bs');
+            const usdInput = document.getElementById('editar-venta-precio-usd');
+            const precio = parsearMonto(bsInput ? bsInput.value : 0);
+            const precioUsd = tasa > 0 ? precio / tasa : 0;
+            const anterior = (Number(itemEditandoVenta.factorBase) || 1) * (Number(itemEditandoVenta.cantidad) || 1);
+            const disponible = (Number(prod.stock) || 0) + anterior;
+            const ok = factor > 0 && factor <= disponible + 1e-9 && precio >= 0;
+            if (bsInput && !precioEdicionManual && factor > 0) bsInput.value = formatearNumero(factor * precioBase);
+            if (usdInput && !precioEdicionManual && factor > 0) usdInput.value = formatearNumero(precioUsd);
+            document.getElementById('editar-venta-conversion').textContent = 'Precio base: ' + formatearNumero(precioBase) + ' Bs./' + etiquetaUnidad(unidadBase) + ' · $' + formatearNumero(precioBase / tasa);
+            document.getElementById('editar-venta-preview').innerHTML = ok
+                ? '<span style="color:var(--success);">✓ ' + formatearCantidadUnidad(factor, unidadBase) + ' · ' + formatearNumero(precio) + ' Bs. · $' + formatearNumero(precioUsd) + '</span>'
+                : '<span style="color:var(--danger);">⚠️ ' + (factor <= 0 ? 'Cantidad inválida.' : factor > disponible + 1e-9 ? 'Supera el stock disponible.' : 'Precio inválido.') + '</span>';
+        }
+
+        function guardarEdicionVenta() {
+            if (!itemEditandoVenta) return;
+            const prod = productos.find(p => String(p.id) === String(itemEditandoVenta.id));
+            if (!prod) return;
+            const unidadBase = obtenerUnidadProducto(prod);
+            const factor = factorCantidadExacta(document.getElementById('editar-venta-cantidad').value, unidadBase);
+            const precio = parsearMonto(document.getElementById('editar-venta-precio-bs').value);
+            const stock = Number(prod.stock) || 0;
+            const anterior = (Number(itemEditandoVenta.factorBase) || 1) * (Number(itemEditandoVenta.cantidad) || 1);
+            const disponible = stock + anterior;
+            if (!Number.isFinite(factor) || factor <= 0) return alert('⚠️ Coloca una cantidad mayor que 0.');
+            if (factor > disponible + 1e-9) return alert('⚠️ Supera el stock disponible.');
+            if (!Number.isFinite(precio) || precio < 0) return alert('⚠️ Coloca un precio válido.');
+            itemEditandoVenta.cantidad = 1;
+            itemEditandoVenta.factorBase = factor;
+            itemEditandoVenta.precioBs = precio;
+            itemEditandoVenta.unidad = unidadBase;
+            itemEditandoVenta.unidadVenta = unidadBase;
+            itemEditandoVenta.presentacionNombre = formatearCantidadUnidad(factor, unidadBase);
+            itemEditandoVenta.presentacionId = itemEditandoVenta.presentacionId || ('manual_' + Date.now());
+            itemEditandoVenta.ventaPersonalizada = true;
+            itemEditandoVenta._nuevoVentaLibre = false;
+            cerrarModalEditarVenta();
+            guardarBorradorTicket();
+            renderTicket();
+        }
+
+        function cerrarModalEditarVenta() {
+            const item = itemEditandoVenta;
+            if (item && item._nuevoVentaLibre) {
+                const idx = ticketActual.indexOf(item);
+                if (idx >= 0) ticketActual.splice(idx, 1);
+            }
+            itemEditandoVenta = null;
+            const modal = document.getElementById('modal-editar-venta');
+            if (modal) modal.classList.add('oculto');
+            renderTicket();
+        }
+
+        function cambiarCantidadTicket(id, delta, presentacionId) {
+            const item = ticketActual.find(i => String(i.id) === String(id) && String(i.presentacionId || '') === String(presentacionId || '')) || ticketActual.find(i => String(i.id) === String(id) && !presentacionId);
+            if (!item) return;
+            const unidad = item.unidadVenta || item.unidad || 'unidad';
+            const paso = 1;
+            const nueva = Number(item.cantidad || 0) + delta * paso;
+            if (nueva <= 0) return eliminarItemTicket(id, presentacionId);
+            const prod = productos.find(p => String(p.id) === String(id));
+            const stock = prod ? Number(prod.stock) || 0 : 0;
+            const factor = factorBasePresentacion(prod, item);
+            if (nueva * factor > stock + 1e-9) return alert(`⚠️ Stock insuficiente. Disponible: ${formatearCantidadUnidad(stock, obtenerUnidadProducto(prod))}.`);
+            item.cantidad = nueva;
+            renderTicket();
+        }
+
+        function editarCantidadTicket(id, valor, presentacionId) {
+            const item = ticketActual.find(i => String(i.id) === String(id) && String(i.presentacionId || '') === String(presentacionId || '')) || ticketActual.find(i => String(i.id) === String(id) && !presentacionId);
+            if (!item) return;
+            const cantidad = Math.floor(parsearCantidad(valor));
+            const prod = productos.find(p => String(p.id) === String(id));
+            const stock = prod ? Number(prod.stock) || 0 : 0;
+            const factor = factorBasePresentacion(prod, item);
+            if (cantidad < 1) { renderTicket(); return; }
+            if (cantidad * factor > stock + 1e-9) { alert(`⚠️ Stock insuficiente. Disponible: ${formatearCantidadUnidad(stock, obtenerUnidadProducto(prod))}.`); renderTicket(); return; }
+            item.cantidad = cantidad;
+            renderTicket();
+        }
+
+        function eliminarItemTicket(id, presentacionId) { ticketActual = ticketActual.filter(i => !(String(i.id) === String(id) && String(i.presentacionId || '') === String(presentacionId || ''))); renderTicket(); }
         function vaciarTicket() { ticketActual = []; localStorage.removeItem('abasto_ticket_borrador'); renderTicket(); }
 
         function renderTicket() {
             const contenedor = document.getElementById('pos-lista-items');
             const tasa = parsearMonto(config.tasaDolar) || 1;
             const cantArticulos = ticketActual.length;
-            const cantUnidades = ticketActual.reduce((acc, i) => acc + i.cantidad, 0);
-
+            const cantUnidadesBase = ticketActual.reduce((acc, i) => acc + ((Number(i.cantidad)||0) * (Number(i.factorBase)||1)), 0);
             document.getElementById('ticket-cant-articulos').textContent = cantArticulos + (cantArticulos === 1 ? ' producto' : ' productos');
-            document.getElementById('ticket-cant-unidades').textContent = cantUnidades + ' unds';
+            document.getElementById('ticket-cant-unidades').textContent = formatearNumero(cantUnidadesBase) + ' en inventario';
             guardarBorradorTicket();
-
             if (ticketActual.length === 0) {
-                contenedor.innerHTML = '<p style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 12px;">Selecciona productos de la carpeta superior para armar la venta.</p>';
-                document.getElementById('pos-total-bs').textContent = '0,00 Bs.';
-                document.getElementById('pos-total-usd').textContent = '$0,00';
-                calcularVuelto(); return;
+                contenedor.innerHTML = '<p style="text-align:center;color:var(--text-muted);font-size:12px;padding:10px;">Agrega productos.</p>';
+                document.getElementById('pos-total-bs').textContent = '0,00 Bs.'; document.getElementById('pos-total-usd').textContent = '$0,00'; calcularVuelto(); return;
             }
-
-            let html = ''; let totalBs = 0;
-            ticketActual.forEach(item => {
-                const subtotalBs = item.precioBs * item.cantidad;
-                totalBs += subtotalBs;
-                html += `<div class="ticket-item-card"><div style="flex:1; min-width:0;"><div style="font-weight:700; font-size:0.85rem; color:var(--text-main); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.nombre}</div><div style="font-size:0.75rem; color:var(--warning); font-weight:700;">${formatearNumero(subtotalBs)} Bs. <span class="precio-usd-admin" style="display:inline;">($${formatearNumero(subtotalBs / tasa)})</span></div></div><div class="ticket-controls"><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', -1)">-</button><span style="font-weight: 800; width: 20px; text-align: center; font-size: 12px;">${item.cantidad}</span><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}', 1)">+</button></div><button style="background:transparent; border:none; color:var(--danger); cursor:pointer; padding:4px;" onclick="eliminarItemTicket('${escapeAttr(item.id)}')">🗑️</button></div>`;
+            let html=''; let totalBs=0;
+            ticketActual.forEach((item, idx) => {
+                const cantidad=Number(item.cantidad)||0; const subtotalBs=(Number(item.precioBs)||0)*cantidad; totalBs+=subtotalBs;
+                const presNombre=item.presentacionNombre || formatearCantidadUnidad(cantidad, item.unidad||'unidad');
+                const factor=Number(item.factorBase)||1;
+                const prodTicket = productos.find(p=>String(p.id)===String(item.id)); const unidadBaseTicket = prodTicket ? obtenerUnidadProducto(prodTicket) : (item.unidad || 'unidad');
+                const esPersonalizada = !!item.ventaPersonalizada;
+                html += `<div class="ticket-item-card"><div class="ticket-item-main"><div class="ticket-item-name">${escapeAttr(item.nombre)}</div><div class="ticket-precio-unitario">${escapeAttr(presNombre)} · ${formatearNumero(subtotalBs)} Bs. · $${formatearNumero(subtotalBs/tasa)}</div><div class="detalle-stock">− ${formatearCantidadUnidad(cantidad*factor, unidadBaseTicket)}</div></div><div class="ticket-item-actions"><div class="ticket-cantidad-wrap"><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}',-1,'${escapeAttr(item.presentacionId||'')}')">−</button><input class="ticket-cantidad-input" type="text" inputmode="numeric" value="${cantidad}" onchange="editarCantidadTicket('${escapeAttr(item.id)}',this.value,'${escapeAttr(item.presentacionId||'')}')"><button class="btn-qty" onclick="cambiarCantidadTicket('${escapeAttr(item.id)}',1,'${escapeAttr(item.presentacionId||'')}')">+</button><span class="ticket-unidad-mini">${escapeAttr(item.unidadVenta || item.unidad || 'und')}</span></div><button class="btn-editar-venta" onclick="abrirEditorVenta('${escapeAttr(item.id)}','${escapeAttr(item.presentacionId||'')}')">✏️</button><button class="ticket-delete" onclick="eliminarItemTicket('${escapeAttr(item.id)}','${escapeAttr(item.presentacionId||'')}')">🗑️</button></div></div>`;
             });
-            contenedor.innerHTML = html;
-            document.getElementById('pos-total-bs').textContent = formatearNumero(totalBs) + ' Bs.';
-            document.getElementById('pos-total-usd').textContent = '$' + formatearNumero(totalBs / tasa);
-            calcularVuelto();
+            contenedor.innerHTML=html; document.getElementById('pos-total-bs').textContent=formatearNumero(totalBs)+' Bs.'; document.getElementById('pos-total-usd').textContent='$'+formatearNumero(totalBs/tasa); calcularVuelto();
         }
 
         function calcularVuelto() {
@@ -953,26 +1796,41 @@
 
         function procesarVenta() {
             if (ticketActual.length === 0) return alert('El ticket de compra está vacío.');
-
-            const totalBs = ticketActual.reduce((acc, item) => acc + (item.precioBs * item.cantidad), 0);
-            const gananciaBs = totalBs - ticketActual.reduce((acc, item) => acc + (item.costoBs * item.cantidad), 0);
             const tasa = parsearMonto(config.tasaDolar) || 1;
+            const totalBs = ticketActual.reduce((acc, item) => acc + ((Number(item.precioBs) || 0) * (Number(item.cantidad) || 0)), 0);
+            const costoTotalBs = ticketActual.reduce((acc, item) => acc + ((Number(item.costoBs) || 0) * (Number(item.cantidad) || 0) * (Number(item.factorBase) || 1)), 0);
+            const gananciaBs = totalBs - costoTotalBs;
             const totalPagadoBs = parsearMonto(document.getElementById('pos-pago-bs').value) || 0;
+            if (totalPagadoBs + 1e-9 < totalBs) return alert(`⚠️ Pago insuficiente. Faltan ${formatearNumero(totalBs - totalPagadoBs)} Bs.`);
             const vueltoBs = Math.max(0, totalPagadoBs - totalBs);
 
-            const fechaObj = new Date();
-            let actualizaciones = {};
-            const idVenta = Date.now();
-
-            ticketActual.forEach(item => {
+            const stockPorProducto = {};
+            for (const item of ticketActual) {
                 const prod = productos.find(p => String(p.id) === String(item.id));
-                const stockActual = prod && prod.stock !== undefined ? parseInt(prod.stock) : 0;
-                actualizaciones['abasto/productos/' + item.id + '/stock'] = Math.max(0, stockActual - item.cantidad);
-            });
+                if (!prod) return alert(`⚠️ El producto "${item.nombre}" ya no existe en el inventario.`);
+                const cantidad = Number(item.cantidad) || 0;
+                const factor = Number(item.factorBase) || 1;
+                const cantidadBase = cantidad * factor;
+                if (cantidad <= 0 || cantidadBase <= 0) return alert(`⚠️ Cantidad inválida para ${item.nombre}.`);
+                if (stockPorProducto[item.id]) stockPorProducto[item.id].cantidadBase += cantidadBase;
+                else stockPorProducto[item.id] = { prod, cantidadBase };
+            }
+            for (const {prod, cantidadBase} of Object.values(stockPorProducto)) {
+                const stock = Number(prod.stock) || 0;
+                if (cantidadBase > stock + 1e-9) return alert(`⚠️ Stock insuficiente de ${prod.nombre}. Disponible: ${formatearCantidadUnidad(stock, obtenerUnidadProducto(prod))}.`);
+            }
 
+            const fechaObj = new Date();
+            const idVenta = Date.now();
+            const actualizaciones = {};
+            Object.values(stockPorProducto).forEach(({prod, cantidadBase}) => {
+                const nuevoStock = redondearCantidad((Number(prod.stock) || 0) - cantidadBase, obtenerUnidadProducto(prod));
+                actualizaciones['abasto/productos/' + prod.id + '/stock'] = Math.max(0, nuevoStock);
+            });
             actualizaciones['abasto/ventas/' + idVenta] = {
-                id: idVenta, fechaIso: getFechaLocalISO(fechaObj), fechaFormato: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), totalBs: totalBs, gananciaBs: gananciaBs,
-                items: ticketActual.map(i => ({ productId: i.id, nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs, costoBs: i.costoBs }))
+                id: idVenta, fechaIso: getFechaLocalISO(fechaObj), fechaFormato: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit', second:'2-digit' }),
+                totalBs, totalPagadoBs, vueltoBs, gananciaBs, tasaDolar: tasa,
+                items: ticketActual.map(i => ({ nombre:i.nombre, cantidad:Number(i.cantidad), unidad:i.unidad || 'unidad', unidadVenta:i.unidadVenta || i.unidad || 'unidad', presentacionNombre:i.presentacionNombre || '', factorBase:Number(i.factorBase)||1, cantidadBase:Number(i.cantidad||0)*(Number(i.factorBase)||1), precioBs:Number(i.precioBs), costoBs:Number(i.costoBs) }))
             };
 
             db.ref().update(actualizaciones, error => {
@@ -998,7 +1856,7 @@
             let actualizaciones = {};
 
             actualizaciones[`abasto/cuaderno/${nombreCliente}/registros/${idRegistro}`] = {
-                id: idRegistro, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), totalBs: totalBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: i.cantidad, precioBs: i.precioBs }))
+                id: idRegistro, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), totalBs: totalBs, items: ticketActual.map(i => ({ nombre: i.nombre, cantidad: Number(i.cantidad), unidad: i.unidad || 'unidad', unidadVenta:i.unidadVenta || i.unidad || 'unidad', presentacionNombre:i.presentacionNombre || '', factorBase:Number(i.factorBase)||1, cantidadBase:Number(i.cantidad||0)*(Number(i.factorBase)||1), precioBs: Number(i.precioBs), costoBs: Number(i.costoBs) }))
             };
             
             actualizaciones[`abasto/cuaderno/${nombreCliente}/totalManual`] = null;
@@ -1065,7 +1923,7 @@
                     registros.forEach(reg => {
                         let subReg = 0;
                         if (reg.items && Array.isArray(reg.items)) {
-                            reg.items.forEach(i => subReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                            reg.items.forEach(i => subReg += (parsearMonto(i.precioBs) || 0) * (Number(i.cantidad) || 1));
                         } else {
                             subReg = parsearMonto(reg.totalBs) || 0;
                         }
@@ -1082,14 +1940,17 @@
                         if (reg.items && Array.isArray(reg.items)) {
                             reg.items.forEach((item, idx) => {
                                 let precioItem = parsearMonto(item.precioBs) || 0;
-                                let cantItem = parseInt(item.cantidad) || 1;
+                                let cantItem = Number(item.cantidad) || 1;
                                 itemsHtml += `
                                     <div class="cuaderno-item-row">
                                         <div class="autocomplete-wrapper">
                                             <input type="text" class="cuaderno-input-nom" value="${escapeAttr(item.nombre)}" oninput="filtrarProductosCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx})" onkeydown="if(event.key==='Enter'){seleccionarPrimerSugerido(this, '${escapeAttr(cliente)}', ${regId}, ${idx});}" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'nombre', this.value)" onblur="ocultarSugerenciasConRetraso(this)" placeholder="Producto">
                                             <div class="autocomplete-suggestions oculto"></div>
                                         </div>
-                                        <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="1" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
+                                        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                                            <input type="number" class="cuaderno-input-qty" value="${cantItem}" min="0.001" step="any" onchange="editarItemCuaderno('${escapeAttr(cliente)}', ${regId}, ${idx}, 'cantidad', this.value)" title="Cantidad">
+                                            <span class="unidad-badge">${etiquetaUnidad(item.unidad || 'unidad')}</span>
+                                        </div>
                                         <div class="cuaderno-precios">
                                             <div class="cuaderno-moneda">
                                                 <span class="cuaderno-moneda-label">BS</span>
@@ -1110,22 +1971,22 @@
 
                         htmlRegistros += `
                             <div class="cuaderno-registro-card">
-                                <div style="display:flex; justify-content:space-between; align-items:center; gap:6px; border-bottom:1px solid var(--border-light); padding-bottom:6px; margin-bottom:6px; flex-wrap:wrap;">
-                                    <div style="display:flex; gap:6px; align-items:center;">
-                                        <span style="font-size:12px; color:var(--text-muted);">📅</span>
+                                <div class="cuaderno-registro-head">
+                                    <div class="cuaderno-registro-meta">
+                                        <span style="font-size:11px; color:var(--text-muted);">📅</span>
                                         <input type="text" class="cuaderno-input-nom" style="width:85px; flex:none; text-align:center; padding:4px;" value="${escapeAttr(reg.fecha || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'fecha', this.value)">
                                         <input type="text" class="cuaderno-input-nom" style="width:65px; flex:none; text-align:center; padding:4px;" value="${escapeAttr(reg.hora || '')}" onchange="editarRegistroCuaderno('${escapeAttr(cliente)}', ${regId}, 'hora', this.value)">
                                         ${badgeRegistrado}
                                     </div>
-                                    <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                                    <div class="cuaderno-registro-actions">
                                         <button class="btn-cuaderno-action" style="background:var(--success); color:white; border-color:var(--success);" onclick="registrarAnotadoRecord('${escapeAttr(cliente)}', ${regId})">📝 Registrar</button>
                                         <button class="btn-cuaderno-action" style="color:var(--secondary);" onclick="cargarNotaATicket('${escapeAttr(cliente)}', ${regId})">🛒 Cargar</button>
                                         <button class="btn-cuaderno-action" style="color:var(--danger); border-color:var(--danger);" onclick="eliminarRegistroCuaderno('${escapeAttr(cliente)}', ${regId})">🗑️</button>
                                     </div>
                                 </div>
-                                <div style="font-size:10px; font-weight:700; color:var(--secondary); margin-bottom:4px; text-transform:uppercase;">Artículos (Escribe ej. $30 para convertir a Bs):</div>
+                                <div class="cuaderno-articulos-label">Artículos</div>
                                 ${itemsHtml}
-                                <button style="background:transparent; border:1px dashed var(--secondary); color:var(--secondary); font-size:11px; font-weight:bold; padding:6px; width:100%; border-radius:6px; cursor:pointer; margin-top:8px;" onclick="agregarItemACuaderno('${escapeAttr(cliente)}', ${regId})">＋ Añadir Producto</button>
+                                <button class="cuaderno-add-item" onclick="agregarItemACuaderno('${escapeAttr(cliente)}', ${regId})">＋ Añadir Producto</button>
                             </div>`;
                     });
 
@@ -1140,26 +2001,26 @@
                                     <span class="flecha-icon ${claseRotClient}" style="font-size:10px;">▼</span>
                                     <span style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:var(--text-main); font-weight:bold;">${cliente}</span>
                                 </div>
-                                <span style="color:var(--danger); font-size:0.9rem; font-weight:800; white-space:nowrap; text-align:right;">${formatearNumero(totalDeudaBs)} Bs.<small style="display:block; color:var(--text-muted); font-size:10px;">$${formatearNumero(totalDeudaBs / (parsearMonto(config.tasaDolar) || 1))}</small></span>
+                                <span class="cuaderno-deuda-resumen"><span class="cuaderno-deuda-bs">${formatearNumero(totalDeudaBs)} Bs.</span><small class="cuaderno-deuda-usd">$${formatearNumero(totalDeudaBs / (parsearMonto(config.tasaDolar) || 1))}</small></span>
                             </div>
                             <div class="cat-content-wrapper ${claseColClient}">
-                                <div class="cat-content-inner" style="padding: 10px; background:var(--bg-card); border-top:1px solid var(--border-light);">
-                                    <div style="margin-bottom:10px; display:flex; gap:6px; align-items:center;">
+                                <div class="cat-content-inner cuaderno-cliente-body">
+                                    <div class="cuaderno-cliente-tools">
                                         <input type="text" class="cuaderno-input-nom" id="input-nom-cli-${escapeAttr(cliente)}" value="${escapeAttr(cliente)}" style="padding:6px;">
                                         <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="renombrarClienteFiado('${escapeAttr(cliente)}')">Renombrar</button>
                                     </div>
                                     ${htmlRegistros}
-                                    <button style="background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main); font-size:11px; font-weight:bold; padding:8px; width:100%; border-radius:6px; cursor:pointer; margin-top:6px;" onclick="crearNuevoRegistroCuaderno('${escapeAttr(cliente)}')">📝 Crear Nueva Nota</button>
-                                    <div style="background:var(--bg-main); border:1px solid var(--border-light); padding:10px; border-radius:8px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-                                        <span style="font-size:11px; font-weight:800; color:var(--warning);">Total Deuda:</span>
-                                        <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                                    <button class="cuaderno-nueva-nota" onclick="crearNuevoRegistroCuaderno('${escapeAttr(cliente)}')">📝 Crear Nueva Nota</button>
+                                    <div class="cuaderno-deuda-box">
+                                        <span class="cuaderno-deuda-label">Deuda</span>
+                                        <div class="cuaderno-deuda-fields">
                                             <input type="text" inputmode="decimal" class="cuaderno-input-precio" style="width:105px; font-weight:bold;" id="input-total-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs)}" oninput="sincronizarDeudaTotal('${escapeAttr(cliente)}', 'bs')" onchange="guardarTotalManualCliente('${escapeAttr(cliente)}')" placeholder="Bs">
                                             <input type="text" inputmode="decimal" class="cuaderno-input-precio" style="width:90px; font-weight:bold;" id="input-total-usd-cli-${escapeAttr(cliente)}" value="${formatearNumero(totalDeudaBs / (parsearMonto(config.tasaDolar) || 1))}" oninput="sincronizarDeudaTotal('${escapeAttr(cliente)}', 'usd')" onchange="guardarTotalManualCliente('${escapeAttr(cliente)}')" placeholder="$">
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem;" onclick="guardarTotalManualCliente('${escapeAttr(cliente)}')">Fijar</button>
                                             <button class="btn-guardar" style="padding:6px 10px; font-size:0.75rem; background:var(--bg-box); border:1px solid var(--border-light); color:var(--text-main);" onclick="recalcularTotalCliente('${escapeAttr(cliente)}')">🔄 Actualizar</button>
                                         </div>
                                     </div>
-                                    <button class="btn-cyan" style="margin-top:10px; background:var(--success); color:white; font-size:12px; padding:10px;" onclick="registrarPagoCliente('${escapeAttr(cliente)}')">💵 Registrar Pago / Abono</button>
+                                    <button class="btn-cyan cuaderno-pago" onclick="registrarPagoCliente('${escapeAttr(cliente)}')">💵 Registrar Pago / Abono</button>
                                 </div>
                             </div>
                         </div>`;
@@ -1239,10 +2100,12 @@
                     if (!prod) {
                         errores.push(`• "${item.nombre}" no existe en inventario.`);
                     } else {
-                        const stockDisp = prod.stock !== undefined ? parseInt(prod.stock) : 0;
-                        const cantReq = parseInt(item.cantidad) || 1;
+                        const stockDisp = prod.stock !== undefined ? Number(prod.stock) : 0;
+                        const unidadReq = obtenerUnidadProducto(prod);
+                        const cantReq = (Number(item.cantidad) || 0) * (Number(item.factorBase) || 1);
                         if (stockDisp <= 0) errores.push(`• "${prod.nombre}" agotado.`);
-                        else if (cantReq > stockDisp) errores.push(`• Stock insuficiente para "${prod.nombre}".`);
+                        else if (cantReq <= 0) errores.push(`• Cantidad inválida para "${prod.nombre}".`);
+                        else if (cantReq > stockDisp + 1e-9) errores.push(`• Stock insuficiente para "${prod.nombre}".`);
                         else itemsValidos.push({ prod: prod, cantidad: cantReq });
                     }
                 });
@@ -1254,8 +2117,9 @@
 
                 let updates = {};
                 itemsValidos.forEach(iv => {
-                    const stockActual = iv.prod.stock !== undefined ? parseInt(iv.prod.stock) : 0;
-                    updates[`abasto/productos/${iv.prod.id}/stock`] = Math.max(0, stockActual - iv.cantidad);
+                    const stockActual = iv.prod.stock !== undefined ? Number(iv.prod.stock) : 0;
+                    const unidadInv = obtenerUnidadProducto(iv.prod);
+                    updates[`abasto/productos/${iv.prod.id}/stock`] = Math.max(0, redondearCantidad(stockActual - iv.cantidad, unidadInv));
                 });
                 updates[`abasto/cuaderno/${cliente}/registros/${regId}/registradoEnInventario`] = true;
 
@@ -1275,7 +2139,7 @@
                 let totalRegistrosBs = 0;
                 registros.forEach(reg => {
                     if (reg.items && Array.isArray(reg.items)) {
-                        reg.items.forEach(i => totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                        reg.items.forEach(i => totalRegistrosBs += (parsearMonto(i.precioBs) || 0) * (Number(i.cantidad) || 1));
                     } else {
                         totalRegistrosBs += parsearMonto(reg.totalBs) || 0;
                     }
@@ -1326,7 +2190,7 @@
             matches.slice(0, 10).forEach(p => {
                 const stockNum = p.stock !== undefined ? p.stock : 0;
                 const precioBs = (parsearMonto(p.costoBs) || 0) * (1 + (parseFloat(p.ganancia) || 0) / 100);
-                html += `<div class="autocomplete-suggestion-item" onmousedown="seleccionarProductoCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, '${escapeAttr(p.nombre)}')"><span>${p.nombre}</span><span style="font-size:0.75rem; color:var(--warning); font-weight:bold;">${formatearNumero(precioBs)} Bs. (${stockNum} und)</span></div>`;
+                html += `<div class="autocomplete-suggestion-item" onmousedown="seleccionarProductoCuaderno(this, '${escapeAttr(cliente)}', ${regId}, ${idx}, '${escapeAttr(p.nombre)}')"><span>${p.nombre}</span><span style="font-size:0.75rem; color:var(--warning); font-weight:bold;">${formatearNumero(precioBs)} Bs./${etiquetaUnidad(obtenerUnidadProducto(p))} · ${formatearCantidadUnidad(stockNum, obtenerUnidadProducto(p))}</span></div>`;
             });
             suggestionsBox.innerHTML = html;
             suggestionsBox.classList.remove('oculto');
@@ -1398,12 +2262,19 @@
                     let prodEncontrado = productos.find(p => p && p.nombre && p.nombre.toLowerCase() === nombreVal.toLowerCase()) || productos.find(p => p && p.nombre && p.nombre.toLowerCase().includes(nombreVal.toLowerCase()));
                     if (!prodEncontrado) { alert(`❌ Producto no encontrado.`); renderCuaderno(); return; }
                     items[itemIdx].nombre = prodEncontrado.nombre;
+                    items[itemIdx].unidad = obtenerUnidadProducto(prodEncontrado);
                     items[itemIdx].precioBs = (parsearMonto(prodEncontrado.costoBs) || 0) * (1 + (parseFloat(prodEncontrado.ganancia) || 0) / 100);
-                } else if (campo === 'cantidad') { items[itemIdx].cantidad = parseInt(valor) || 1; }
+                } else if (campo === 'cantidad') {
+                        const prodActual = productos.find(p => p && p.nombre && String(p.nombre).toLowerCase() === String(items[itemIdx].nombre || '').toLowerCase());
+                        const unidadActual = obtenerUnidadProducto(prodActual);
+                        const nuevaCantidad = redondearCantidad(parsearCantidad(valor), unidadActual);
+                        if (nuevaCantidad <= 0) return;
+                        items[itemIdx].cantidad = nuevaCantidad;
+                    }
                 else if (campo === 'precioBs') { items[itemIdx].precioBs = parsearMonto(valor); }
 
                 let totalReg = 0;
-                items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (Number(i.cantidad) || 1));
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
                 db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
@@ -1417,7 +2288,7 @@
                 let items = snap.val() || [];
                 if (items.length <= 1) { if (confirm('¿Eliminar registro?')) eliminarRegistroCuaderno(cliente, regId); return; }
                 items.splice(itemIdx, 1);
-                let totalReg = 0; items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (parseInt(i.cantidad) || 1));
+                let totalReg = 0; items.forEach(i => totalReg += (parsearMonto(i.precioBs) || 0) * (Number(i.cantidad) || 1));
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/totalBs`).set(totalReg);
                 db.ref(`abasto/cuaderno/${cliente}/totalManual`).remove();
@@ -1426,14 +2297,14 @@
 
         function agregarItemACuaderno(cliente, regId) {
             db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).once('value', snap => {
-                let items = snap.val() || []; items.push({ nombre: "", cantidad: 1, precioBs: 0 });
+                let items = snap.val() || []; items.push({ nombre: "", cantidad: 1, unidad: 'unidad', precioBs: 0 });
                 db.ref(`abasto/cuaderno/${cliente}/registros/${regId}/items`).set(items);
             });
         }
 
         function crearNuevoRegistroCuaderno(cliente) {
             const fechaObj = new Date(); const regId = Date.now();
-            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).set({ id: regId, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), items: [{ nombre: "", cantidad: 1, precioBs: 0 }], totalBs: 0 });
+            db.ref(`abasto/cuaderno/${cliente}/registros/${regId}`).set({ id: regId, fecha: fechaObj.toLocaleDateString(), hora: fechaObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), items: [{ nombre: "", cantidad: 1, unidad: 'unidad', precioBs: 0 }], totalBs: 0 });
         }
 
         function eliminarRegistroCuaderno(cliente, regId) {
@@ -1446,7 +2317,7 @@
                 reg.items.forEach(item => {
                     if (!item.nombre) return;
                     const p = productos.find(prod => prod.nombre.toLowerCase() === item.nombre.toLowerCase());
-                    if (p) ticketActual.push({ id: p.id, nombre: item.nombre, precioBs: parsearMonto(item.precioBs) || 0, costoBs: parsearMonto(p.costoBs) || 0, cantidad: parseInt(item.cantidad) || 1 });
+                    if (p) ticketActual.push({ id: p.id, nombre: item.nombre, precioBs: parsearMonto(item.precioBs) || 0, costoBs: parsearMonto(p.costoBs) || 0, cantidad: Number(item.cantidad) || 1, unidad: item.unidadVenta || item.unidad || obtenerUnidadProducto(p), unidadVenta:item.unidadVenta || item.unidad || obtenerUnidadProducto(p), factorBase:Number(item.factorBase)||1, presentacionNombre:item.presentacionNombre || '' });
                 });
                 cambiarVista('pos'); alert(`🛒 Cargado al Ticket.`);
             });
@@ -1499,7 +2370,7 @@
 
         function renderCierreCaja() {
             const tasa = parsearMonto(config.tasaDolar) || 1;
-            const dObj = new Date();
+            const dObj = new Date(); 
             dObj.setDate(dObj.getDate() + diasOffsetSeleccionado);
             const fechaObjetivoIso = getFechaLocalISO(dObj);
             const fechaObjetivoLocal = dObj.toLocaleDateString();
@@ -1508,242 +2379,60 @@
             if (diasOffsetSeleccionado === -1) labelDiaTexto = "Ayer (" + fechaObjetivoLocal + ")";
             else if (diasOffsetSeleccionado < -1) labelDiaTexto = fechaObjetivoLocal;
             else if (diasOffsetSeleccionado > 0) labelDiaTexto = "Fecha Futura / " + fechaObjetivoLocal;
-
+            
             document.getElementById('label-dia-seleccionado').textContent = labelDiaTexto;
             document.getElementById('factura-dia-fecha').textContent = fechaObjetivoLocal;
 
+            // Filtrar ventas por fecha y ordenar estrictamente por hora / ID cronológicamente
             let ventasFiltradas = ventas.filter(v => v.fechaIso ? v.fechaIso === fechaObjetivoIso : true).sort((a, b) => (a.id || 0) - (b.id || 0));
+            
             let totalVendidoBs = 0; let gananciaNetaBs = 0; let totalUnidadesVendidas = 0;
 
             ventasFiltradas.forEach(v => {
-                totalVendidoBs += parsearMonto(v.totalBs) || 0;
-                gananciaNetaBs += parsearMonto(v.gananciaBs) || 0;
-                if (v.items && Array.isArray(v.items)) v.items.forEach(item => totalUnidadesVendidas += (parseInt(item.cantidad) || 0));
+                totalVendidoBs += (v.totalBs || 0); 
+                gananciaNetaBs += (v.gananciaBs || 0);
+                if (v.items && Array.isArray(v.items)) v.items.forEach(item => totalUnidadesVendidas += (Number(item.cantidad) || 0));
             });
 
             document.getElementById('caja-total-bs').textContent = formatearNumero(totalVendidoBs) + ' Bs.';
             document.getElementById('caja-total-usd').textContent = '$' + formatearNumero(totalVendidoBs / tasa);
             document.getElementById('caja-ganancia-bs').textContent = formatearNumero(gananciaNetaBs) + ' Bs.';
             document.getElementById('caja-ganancia-usd').textContent = '$' + formatearNumero(gananciaNetaBs / tasa);
-            document.getElementById('caja-num-ventas').textContent = ventasFiltradas.length + ' / ' + totalUnidadesVendidas + ' und';
-            document.getElementById('factura-dia-unds').textContent = totalUnidadesVendidas + ' unds';
+            document.getElementById('caja-num-ventas').textContent = ventasFiltradas.length + ' ventas / ' + totalUnidadesVendidas.toLocaleString('es-VE', {maximumFractionDigits:3}) + ' cantidades';
+            document.getElementById('factura-dia-unds').textContent = totalUnidadesVendidas.toLocaleString('es-VE', {maximumFractionDigits:3}) + ' cantidades';
             document.getElementById('factura-dia-total').textContent = formatearNumero(totalVendidoBs) + ' Bs.';
 
             const contenedorFactura = document.getElementById('factura-dia-desglose');
             if (ventasFiltradas.length === 0) {
-                contenedorFactura.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:13px; padding:30px;">Sin facturas registradas en esta fecha. Usa los botones superiores o el selector de fecha para ver facturas pasadas.</div>';
-                return;
-            }
-
-            let htmlFactura = '';
-            ventasFiltradas.forEach((v, index) => {
-                const editando = !!facturasEnEdicion[String(v.id)];
-                if (editando) {
-                    const fechaInput = v.fechaIso || fechaObjetivoIso;
-                    const horaMatch = String(v.hora || '').match(/(\d{1,2}):(\d{2})/);
-                    const horaInput = horaMatch ? horaMatch[1].padStart(2, '0') + ':' + horaMatch[2] : '';
-                    const items = (v.items && Array.isArray(v.items)) ? v.items : [];
-                    let opcionesProductos = '<option value="">Seleccionar producto...</option>';
-                    productos.forEach(p => {
-                        if (!p || !p.nombre) return;
-                        opcionesProductos += `<option value="${escapeAttr(p.id)}">${escapeHtml(p.nombre)}</option>`;
-                    });
-
-                    let itemsHtml = '';
-                    items.forEach((item, itemIdx) => {
-                        const productoActual = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
-                        const productId = productoActual ? productoActual.id : (item.productId || item.id || '');
-                        itemsHtml += `
-                            <div style="display:grid; grid-template-columns:minmax(110px,2fr) 60px minmax(90px,1fr) 30px; gap:7px; align-items:center; margin-bottom:7px;">
-                                <select id="edit-prod-${v.id}-${itemIdx}" style="width:100%; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);">${opcionesProductos.replace(`value="${escapeAttr(productId)}"`, `value="${escapeAttr(productId)}" selected`)}</select>
-                                <input id="edit-qty-${v.id}-${itemIdx}" type="number" min="1" step="1" value="${parseInt(item.cantidad) || 1}" style="width:100%; box-sizing:border-box; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);" title="Cantidad">
-                                <input id="edit-price-${v.id}-${itemIdx}" type="text" inputmode="decimal" value="${formatearNumero(item.precioBs || 0)}" class="input-formato-monto" style="width:100%; box-sizing:border-box; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);" title="Precio unitario en Bs.">
-                                <button type="button" onclick="quitarItemFacturaEditada(${v.id}, ${itemIdx})" style="border:0; background:transparent; color:var(--danger); font-size:18px; cursor:pointer;">🗑️</button>
-                            </div>`;
-                    });
+                contenedorFactura.innerHTML = '<div style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 30px;">Sin facturas registradas en esta fecha. Usa los botones superiores o el selector de fecha para ver facturas pasadas.</div>';
+            } else {
+                let htmlFactura = '';
+                ventasFiltradas.forEach((v, index) => {
+                    htmlFactura += `
+                        <div style="background-color: var(--bg-box); border: 1px solid var(--border-light); border-radius: 10px; padding: 12px 14px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 6px;">
+                                <span style="font-size: 13px; font-weight: 800; color: var(--secondary);">🧾 Factura #${index + 1}</span>
+                                <span style="font-size: 12px; font-weight: 700; color: var(--warning);">🕒 Hora: ${v.hora || 'Sin hora'}</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px;">`;
+                    
+                    if (v.items && Array.isArray(v.items)) {
+                        v.items.forEach(item => {
+                            const unidadFactura = item.unidad || 'unidad';
+                            htmlFactura += `<div style="display:flex; justify-content:space-between; font-size:12px;"><span>• ${formatearCantidadUnidad(Number(item.cantidad) || 0, unidadFactura)} de ${item.nombre}</span><strong style="color:var(--text-main);">${formatearNumero((parseFloat(item.precioBs) || 0) * (Number(item.cantidad) || 0))} Bs. <span style="font-size:10px; color:var(--text-muted);">($${formatearNumero(((parseFloat(item.precioBs) || 0) * (Number(item.cantidad) || 0)) / tasa)})</span></strong></div>`;
+                        });
+                    }
 
                     htmlFactura += `
-                        <div style="background:var(--bg-box); border:1px solid var(--primary); border-radius:12px; padding:14px; box-shadow:0 0 0 1px rgba(0,0,0,.05);">
-                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:10px;">
-                                <strong style="color:var(--secondary);">✏️ Editando Factura #${index + 1}</strong>
-                                <span style="font-size:11px; color:var(--text-muted);">Puedes corregir producto, cantidad, precio, fecha y hora</span>
                             </div>
-                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;">
-                                <label style="font-size:11px; color:var(--text-muted);">Fecha<input id="edit-fecha-${v.id}" type="date" value="${fechaInput}" style="display:block; width:100%; box-sizing:border-box; margin-top:4px; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);"></label>
-                                <label style="font-size:11px; color:var(--text-muted);">Hora<input id="edit-hora-${v.id}" type="time" value="${horaInput}" style="display:block; width:100%; box-sizing:border-box; margin-top:4px; padding:8px; border-radius:7px; background:var(--bg-input); color:var(--text-main); border:1px solid var(--border-light);"></label>
-                            </div>
-                            <div style="font-size:11px; color:var(--text-muted); margin-bottom:5px;">PRODUCTO · CANTIDAD · PRECIO UNITARIO</div>
-                            <div id="edit-items-${v.id}">${itemsHtml || '<div style="color:var(--text-muted); font-size:12px; padding:8px 0;">No hay productos. Agrega uno.</div>'}</div>
-                            <div style="display:flex; gap:7px; flex-wrap:wrap; margin-top:10px;">
-                                <button type="button" onclick="agregarItemFacturaEditada(${v.id})" style="border:1px dashed var(--secondary); background:transparent; color:var(--secondary); padding:8px 11px; border-radius:8px; cursor:pointer; font-weight:700;">＋ Agregar producto</button>
-                                <span style="flex:1"></span>
-                                <button type="button" onclick="cancelarEditarFactura(${v.id})" style="border:1px solid var(--border-light); background:var(--bg-input); color:var(--text-main); padding:8px 11px; border-radius:8px; cursor:pointer; font-weight:700;">Cancelar</button>
-                                <button type="button" onclick="guardarFacturaEditada(${v.id})" style="border:0; background:var(--success); color:white; padding:8px 13px; border-radius:8px; cursor:pointer; font-weight:800;">💾 Guardar cambios</button>
+                            <div style="display:flex; justify-content:space-between; font-size:12px; border-top: 1px dashed var(--border-light); padding-top: 6px;">
+                                <span style="font-weight:bold; color:var(--warning);">Total Factura:</span>
+                                <strong style="color: var(--warning); font-size: 13px;">${formatearNumero(v.totalBs || 0)} Bs. ($${formatearNumero((v.totalBs || 0) / tasa)})</strong>
                             </div>
                         </div>`;
-                    return;
-                }
-
-                htmlFactura += `
-                    <div style="background-color:var(--bg-box); border:1px solid var(--border-light); border-radius:10px; padding:12px 14px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; border-bottom:1px solid var(--border-color); padding-bottom:6px;">
-                            <span style="font-size:13px; font-weight:800; color:var(--secondary);">🧾 Factura #${index + 1}</span>
-                            <span style="font-size:12px; font-weight:700; color:var(--warning);">🕒 Hora: ${escapeHtml(v.hora || 'Sin hora')}</span>
-                        </div>
-                        <div style="display:flex; flex-direction:column; gap:4px; margin-bottom:8px;">`;
-                if (v.items && Array.isArray(v.items)) {
-                    v.items.forEach(item => {
-                        const subtotal = (parsearMonto(item.precioBs) || 0) * (parseInt(item.cantidad) || 0);
-                        htmlFactura += `<div style="display:flex; justify-content:space-between; gap:8px; font-size:12px;"><span>• ${parseInt(item.cantidad) || 0}x ${escapeHtml(item.nombre || 'Producto')}</span><strong style="color:var(--text-main);">${formatearNumero(subtotal)} Bs. <span style="font-size:10px; color:var(--text-muted);">($${formatearNumero(subtotal / tasa)})</span></strong></div>`;
-                    });
-                }
-                htmlFactura += `
-                        </div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; border-top:1px dashed var(--border-light); padding-top:7px;">
-                            <span style="font-weight:bold; color:var(--warning);">Total Factura:</span>
-                            <strong style="color:var(--warning); font-size:13px;">${formatearNumero(v.totalBs || 0)} Bs. ($${formatearNumero((v.totalBs || 0) / tasa)})</strong>
-                        </div>
-                        <div style="display:flex; justify-content:flex-end; gap:7px; margin-top:10px;">
-                            <button type="button" onclick="editarFactura(${v.id})" style="border:1px solid var(--secondary); background:transparent; color:var(--secondary); padding:7px 11px; border-radius:8px; cursor:pointer; font-size:11px; font-weight:800;">✏️ Editar factura</button>
-                            <button type="button" onclick="eliminarFactura(${v.id})" style="border:1px solid var(--danger); background:transparent; color:var(--danger); padding:7px 11px; border-radius:8px; cursor:pointer; font-size:11px; font-weight:800;">🗑️ Eliminar</button>
-                        </div>
-                    </div>`;
-            });
-            contenedorFactura.innerHTML = htmlFactura;
-        }
-
-        function editarFactura(id) {
-            const factura = ventas.find(v => String(v.id) === String(id));
-            if (!factura) return alert('Factura no encontrada.');
-            facturasEnEdicion[String(id)] = true;
-            renderCierreCaja();
-        }
-
-        function cancelarEditarFactura(id) {
-            delete facturasEnEdicion[String(id)];
-            renderCierreCaja();
-        }
-
-        function agregarItemFacturaEditada(id) {
-            const factura = ventas.find(v => String(v.id) === String(id));
-            if (!factura) return;
-            const items = Array.isArray(factura.items) ? factura.items : [];
-            items.push({ productId: '', nombre: '', cantidad: 1, precioBs: 0, costoBs: 0 });
-            factura.items = items;
-            facturasEnEdicion[String(id)] = true;
-            renderCierreCaja();
-        }
-
-        function quitarItemFacturaEditada(id, idx) {
-            const factura = ventas.find(v => String(v.id) === String(id));
-            if (!factura || !Array.isArray(factura.items)) return;
-            factura.items.splice(idx, 1);
-            facturasEnEdicion[String(id)] = true;
-            renderCierreCaja();
-        }
-
-        function guardarFacturaEditada(id) {
-            const factura = ventas.find(v => String(v.id) === String(id));
-            if (!factura) return alert('Factura no encontrada.');
-
-            const itemsOriginales = Array.isArray(factura.items) ? factura.items.map(i => ({...i})) : [];
-            const nuevosItems = [];
-            const itemsBase = factura.items || [];
-
-            for (let i = 0; i < itemsBase.length; i++) {
-                const prodSelect = document.getElementById(`edit-prod-${id}-${i}`);
-                const qtyInput = document.getElementById(`edit-qty-${id}-${i}`);
-                const priceInput = document.getElementById(`edit-price-${id}-${i}`);
-                if (!prodSelect || !qtyInput || !priceInput) continue;
-
-                const prod = productos.find(p => String(p.id) === String(prodSelect.value));
-                const cantidad = parseInt(qtyInput.value) || 0;
-                const precioBs = parsearMonto(priceInput.value);
-                if (!prod || cantidad <= 0 || precioBs <= 0) {
-                    return alert(`⚠️ Revisa el producto, cantidad y precio del artículo #${i + 1}.`);
-                }
-                nuevosItems.push({
-                    productId: prod.id,
-                    nombre: prod.nombre,
-                    cantidad,
-                    precioBs,
-                    costoBs: parsearMonto(prod.costoBs) || 0
                 });
+                contenedorFactura.innerHTML = htmlFactura;
             }
-
-            if (nuevosItems.length === 0) return alert('La factura debe tener al menos un producto.');
-
-            const totalBs = nuevosItems.reduce((sum, item) => sum + item.precioBs * item.cantidad, 0);
-            const gananciaBs = nuevosItems.reduce((sum, item) => sum + (item.precioBs - item.costoBs) * item.cantidad, 0);
-            const fechaEl = document.getElementById(`edit-fecha-${id}`);
-            const horaEl = document.getElementById(`edit-hora-${id}`);
-            const nuevaFechaIso = fechaEl && fechaEl.value ? fechaEl.value : (factura.fechaIso || getFechaLocalISO(new Date()));
-            const nuevaHora = horaEl && horaEl.value ? horaEl.value : (factura.hora || '');
-            let fechaObj = new Date(nuevaFechaIso + 'T' + (nuevaHora || '00:00'));
-            if (isNaN(fechaObj.getTime())) fechaObj = new Date();
-
-            // Corrige inventario: devuelve las unidades de la factura anterior y descuenta las nuevas.
-            const deltaStock = {};
-            itemsOriginales.forEach(item => {
-                const prod = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
-                if (prod && prod.stock !== undefined) deltaStock[String(prod.id)] = (deltaStock[String(prod.id)] || 0) + (parseInt(item.cantidad) || 0);
-            });
-            nuevosItems.forEach(item => {
-                deltaStock[String(item.productId)] = (deltaStock[String(item.productId)] || 0) - item.cantidad;
-            });
-
-            const updates = {};
-            Object.keys(deltaStock).forEach(prodId => {
-                const prod = productos.find(p => String(p.id) === String(prodId));
-                if (prod && prod.stock !== undefined) {
-                    const stockActual = parseInt(prod.stock) || 0;
-                    updates[`abasto/productos/${prod.id}/stock`] = Math.max(0, stockActual + deltaStock[prodId]);
-                }
-            });
-
-            updates[`abasto/ventas/${id}`] = {
-                ...factura,
-                id: factura.id,
-                fechaIso: nuevaFechaIso,
-                fechaFormato: fechaObj.toLocaleDateString(),
-                hora: nuevaHora,
-                totalBs,
-                gananciaBs,
-                items: nuevosItems
-            };
-
-            db.ref().update(updates, error => {
-                if (error) return alert('Error al guardar la factura: ' + error.message);
-                delete facturasEnEdicion[String(id)];
-                alert('✅ Factura corregida y guardada. También se ajustó el inventario.');
-                renderCierreCaja();
-            });
-        }
-
-        function eliminarFactura(id) {
-            const factura = ventas.find(v => String(v.id) === String(id));
-            if (!factura) return alert('Factura no encontrada.');
-            if (!confirm('¿Eliminar esta factura? También se devolverán al inventario las unidades que tenía registradas.')) return;
-
-            const updates = {};
-            const restaurar = {};
-            (factura.items || []).forEach(item => {
-                const prod = productos.find(p => String(p.id) === String(item.productId || item.id)) || productos.find(p => p && p.nombre && p.nombre.toLowerCase() === String(item.nombre || '').toLowerCase());
-                if (prod && prod.stock !== undefined) restaurar[String(prod.id)] = (restaurar[String(prod.id)] || 0) + (parseInt(item.cantidad) || 0);
-            });
-            Object.keys(restaurar).forEach(prodId => {
-                const prod = productos.find(p => String(p.id) === String(prodId));
-                if (prod) updates[`abasto/productos/${prod.id}/stock`] = (parseInt(prod.stock) || 0) + restaurar[prodId];
-            });
-            updates[`abasto/ventas/${id}`] = null;
-            db.ref().update(updates, error => {
-                if (error) alert('Error al eliminar: ' + error.message);
-                else {
-                    delete facturasEnEdicion[String(id)];
-                    alert('🗑️ Factura eliminada correctamente.');
-                    renderCierreCaja();
-                }
-            });
         }
 
         function reiniciarCaja() { 
@@ -1764,7 +2453,6 @@
             document.getElementById('tasa-actual').textContent = formatearNumero(tasaNum) + " Bs.";
             document.getElementById('tasa-fecha').textContent = "Modificado: " + (config.ultimaModificacion || '-');
             actualizarSugerenciasCategorias();
-            renderTablasAdmin(document.getElementById('input-search-admin') ? document.getElementById('input-search-admin').value : '');
         }
 
         function actualizarTasa() {
@@ -1780,17 +2468,22 @@
         }
 
         function registrarProducto() {
-            const nombre = document.getElementById('p-nombre').value;
-            const categoria = document.getElementById('p-categoria').value || "Viveres";
+            const nombre = document.getElementById('p-nombre').value.trim();
+            const categoria = document.getElementById('p-categoria').value.trim() || "Viveres";
             const costo = parsearMonto(document.getElementById('p-costo-bs').value);
             const ganancia = parseFloat(document.getElementById('p-ganancia').value) || 0;
-            const stock = parseInt(document.getElementById('p-stock').value) || 0;
-
+            const unidad = document.getElementById('p-unidad') ? document.getElementById('p-unidad').value : 'unidad';
+            const stock = redondearCantidad(parsearCantidad(document.getElementById('p-stock').value), unidad);
             if (!nombre || costo <= 0) return alert('Escribe nombre y costo válido.');
+            if (stock < 0) return alert('El stock no puede ser negativo.');
             const id = Date.now();
-            db.ref('abasto/productos/' + id).set({ id: id, nombre: nombre, categoria: categoria, costoBs: costo, ganancia: ganancia, stock: stock });
-            document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo-bs').value = ''; document.getElementById('p-costo-usd').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
-            alert('Producto guardado.');
+            const productoNuevo = { id, nombre, categoria, costoBs:costo, ganancia, stock, unidad };
+            productoNuevo.presentaciones = normalizarPresentacionesProducto(productoNuevo);
+            db.ref('abasto/productos/' + id).set(productoNuevo).then(() => {
+                document.getElementById('p-nombre').value = ''; document.getElementById('p-categoria').value = ''; document.getElementById('p-costo-bs').value = ''; document.getElementById('p-costo-usd').value = ''; document.getElementById('p-ganancia').value = ''; document.getElementById('p-stock').value = '';
+                document.getElementById('p-unidad').value = 'unidad'; actualizarCamposUnidadProducto();
+                alert('Producto guardado.');
+            }).catch(error => alert('Error: ' + error.message));
         }
 
         function renderTablasAdmin(filtro = '') {
@@ -1810,12 +2503,14 @@
 
             Object.keys(categorias).sort().forEach(cat => {
                 const catEscapada = escapeAttr(cat);
-                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs)</th><th>Costo ($)</th><th>% Gan</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
+                let html = `<div class="cat-banner"><div style="cursor:pointer;" onclick="toggleAdminCat(this)"><span class="flecha-icon ${estadoRotado}">▼</span><span>📁 ${cat} (${categorias[cat].length})</span></div><div><button class="btn-cat-action" onclick="renombrarCategoria('${catEscapada}')">✏️ Renombrar</button><button class="btn-cat-action" style="color: var(--danger);" onclick="eliminarCategoria('${catEscapada}')">🗑️ Eliminar</button></div></div><div class="cat-content-wrapper ${estadoColapsado}"><div class="cat-content-inner table-responsive-admin"><table><thead><tr><th>Nombre</th><th>Costo (Bs)</th><th>Costo ($)</th><th>% Gan</th><th>Tipo</th><th>Stock</th><th>Acción</th></tr></thead><tbody>`;
                 categorias[cat].sort((a, b) => String(a.nombre).localeCompare(String(b.nombre))).forEach(p => {
                     const stock = p.stock !== undefined ? p.stock : 0;
                     const costoBsFila = parsearMonto(p.costoBs) || 0;
                     const costoUsdFila = costoBsFila / (parsearMonto(config.tasaDolar) || 1);
-                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-${p.id}" value="${formatearNumero(costoBsFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'bs')"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-usd-${p.id}" value="${formatearNumero(costoUsdFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'usd')"></td><td><input type="number" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><input type="number" class="input-inline" style="${stock <= 3 ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
+                    const unidadFila = obtenerUnidadProducto(p);
+                    const defFila = UNIDADES_PRODUCTO[unidadFila] || UNIDADES_PRODUCTO.unidad;
+                    html += `<tr><td><input type="text" class="input-admin-nom" id="nom-${p.id}" value="${escapeAttr(p.nombre || '')}"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-${p.id}" value="${formatearNumero(costoBsFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'bs')"></td><td><input type="text" inputmode="decimal" class="input-inline input-formato-monto" id="cost-usd-${p.id}" value="${formatearNumero(costoUsdFila)}" oninput="sincronizarCostoFilaAdmin('${escapeAttr(p.id)}', 'usd')"></td><td><input type="number" step="0.1" class="input-inline" id="gan-${p.id}" value="${p.ganancia !== undefined ? p.ganancia : 0}"></td><td><select id="uni-${p.id}" style="padding:8px;background:var(--bg-input);color:var(--text-main);border:1px solid var(--border-light);border-radius:8px;"><option value="unidad" ${unidadFila==='unidad'?'selected':''}>und</option><option value="kg" ${unidadFila==='kg'?'selected':''}>kg</option><option value="litro" ${unidadFila==='litro'?'selected':''}>L</option><option value="paquete" ${unidadFila==='paquete'?'selected':''}>paq</option><option value="caja" ${unidadFila==='caja'?'selected':''}>caja</option><option value="docena" ${unidadFila==='docena'?'selected':''}>doc</option></select></td><td><input type="number" step="${defFila.step}" min="0" class="input-inline" style="${stock <= stockMinimoUnidad(unidadFila) ? 'color: var(--danger); font-weight: 800;' : ''}" id="stk-${p.id}" value="${stock}"></td><td><div class="acciones-fila"><button class="btn-guardar" onclick="guardarFila('${escapeAttr(p.id)}')">✓</button><button class="btn-cat-action" onclick="abrirEditorPresentaciones('${escapeAttr(p.id)}')">⚖️</button><button class="btn-eliminar" onclick="eliminarFila('${escapeAttr(p.id)}')">✕</button></div></td></tr>`;
                 });
                 contenedor.innerHTML += html + '</tbody></table></div></div>';
             });
@@ -1857,18 +2552,23 @@
 
         function guardarFila(id) {
             const prodExistente = productos.find(p => String(p.id) === String(id));
+            const unidad = document.getElementById('uni-' + id) ? document.getElementById('uni-' + id).value : obtenerUnidadProducto(prodExistente);
+            const stock = redondearCantidad(parsearCantidad(document.getElementById('stk-' + id).value), unidad);
+            const costoBs = parsearMonto(document.getElementById('cost-' + id).value);
+            if (stock < 0 || costoBs < 0) return alert('Stock y costo no pueden ser negativos.');
             db.ref('abasto/productos/' + id).set({
-                id: id, nombre: document.getElementById('nom-' + id).value, costoBs: parsearMonto(document.getElementById('cost-' + id).value), ganancia: parseFloat(document.getElementById('gan-' + id).value) || 0, stock: parseInt(document.getElementById('stk-' + id).value) || 0, categoria: prodExistente ? prodExistente.categoria : "Viveres"
-            });
-            alert('Actualizado.');
+                id, nombre: document.getElementById('nom-' + id).value.trim(), costoBs, ganancia: parseFloat(document.getElementById('gan-' + id).value) || 0, stock, unidad, categoria: prodExistente ? prodExistente.categoria : "Viveres", presentaciones: prodExistente && Array.isArray(prodExistente.presentaciones) ? prodExistente.presentaciones : normalizarPresentacionesProducto({id,nombre:document.getElementById('nom-' + id).value.trim(),costoBs,ganancia:parseFloat(document.getElementById('gan-' + id).value)||0,stock,unidad})
+            }).then(() => alert('Actualizado.')).catch(error => alert('Error: ' + error.message));
         }
 
         function eliminarFila(id) { if (confirm('¿Eliminar?')) db.ref('abasto/productos/' + id).remove(); }
 
         document.getElementById('input-search').addEventListener('input', e => cargarCatalogo(e.target.value));
         document.getElementById('input-search-pos').addEventListener('input', e => cargarPosCatalogo(e.target.value));
-        document.getElementById('input-search-admin').addEventListener('input', e => renderTablasAdmin(e.target.value));
+        document.getElementById('input-search-inventario').addEventListener('input', e => renderTablasAdmin(e.target.value));
         document.getElementById('input-search-cuaderno').addEventListener('input', () => renderCuaderno());
+        if (document.getElementById('p-unidad')) document.getElementById('p-unidad').addEventListener('change', actualizarCamposUnidadProducto);
+        actualizarCamposUnidadProducto();
 
         document.addEventListener('click', e => {
             const TheHeader = e.target.closest('.categoria-header');
@@ -1884,3 +2584,6 @@
     </script>
 </body>
 </html>
+
+
+
