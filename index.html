@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
     <style>
@@ -1089,6 +1090,7 @@
             } 
         });
 
+        function iniciarListenersFirebase() {
         // FIREBASE LISTENERS
         db.ref('abasto/config').on('value', function(snapshot) {
             const data = snapshot.val();
@@ -1107,6 +1109,21 @@
             datosCuaderno = snapshot.val() || {};
             if (!document.getElementById('vista-cuaderno').classList.contains('oculto')) renderCuaderno();
         });
+        }
+
+        // Autenticación anónima: las reglas de producción pueden exigir auth != null.
+        // No se inicia ningún listener ni se realizan escrituras iniciales antes de autenticar.
+        const estadoConexionFirebase = document.getElementById('estado-conexion');
+        if (estadoConexionFirebase) estadoConexionFirebase.textContent = '🔄 Conectando con la nube…';
+        firebase.auth().signInAnonymously()
+            .then(function() {
+                iniciarListenersFirebase();
+                if (estadoConexionFirebase) estadoConexionFirebase.textContent = '🌐 Sincronizado en la nube (Tiempo real)';
+            })
+            .catch(function(error) {
+                console.error('No se pudo autenticar con Firebase:', error);
+                if (estadoConexionFirebase) estadoConexionFirebase.textContent = '⚠️ Error de conexión/autenticación con Firebase';
+            });
 
         function actualizarSugerenciasCategorias() {
             const datalist = document.getElementById('lista-categorias-sugeridas');
@@ -2584,6 +2601,3 @@
     </script>
 </body>
 </html>
-
-
-
